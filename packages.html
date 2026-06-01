@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velora Labs — Paquetes y Servicios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:       #06070D;
+  --surface:     #0D0E1A;
+  --surface-2:   #131528;
+  --surface-3:   #1A1C35;
+  --border:      #1E2040;
+  --border-2:    #252848;
+  --primary:     #5B5FE8;
+  --primary-lt:  #818CF8;
+  --primary-glow:rgba(91,95,232,.14);
+  --cyan:        #22D3EE;
+  --cyan-dim:    rgba(34,211,238,.12);
+  --amber:       #F59E0B;
+  --amber-dim:   rgba(245,158,11,.10);
+  --green:       #10B981;
+  --green-dim:   rgba(16,185,129,.12);
+  --white:       #FFFFFF;
+  --text-1:      #E8EAF4;
+  --text-2:      #9698B8;
+  --text-3:      #4E5075;
+  --font-display:"Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-body:   "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:   "JetBrains Mono", "Fira Code", monospace;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--black);color:var(--text-1);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.page{max-width:1280px;margin:0 auto;padding:0 40px}
+section{padding:80px 0}
+section+section{border-top:1px solid var(--border)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(6,7,13,.85);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 40px;height:60px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-size:12px;font-weight:500;color:var(--text-2);
+             letter-spacing:.5px;text-transform:uppercase;transition:color .2s;text-decoration:none}
+.nav-links a:hover{color:var(--text-1)}
+
+/* HERO */
+.cover{min-height:60vh;display:flex;align-items:center;padding-top:60px;position:relative;overflow:hidden}
+.cover-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 60% 40%,rgba(91,95,232,.1) 0%,transparent 65%),
+             radial-gradient(ellipse 40% 30% at 80% 70%,rgba(34,211,238,.05) 0%,transparent 55%)}
+.cover-grid{position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:80px 80px;opacity:.25}
+.cover-content{position:relative;z-index:1}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px}
+.section-label{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--primary-lt);
+               letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+.section-title{font-family:var(--font-display);font-size:clamp(28px,4vw,48px);
+               font-weight:800;color:var(--text-1);line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px}
+.divider{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+
+/* PACKAGE CARD */
+.pkg{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);
+     padding:40px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:28px}
+.pkg-header{}
+.pkg-label{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;
+           color:var(--text-3);margin-bottom:12px}
+.pkg-name{font-family:var(--font-display);font-size:32px;font-weight:800;
+          letter-spacing:-1px;color:var(--text-1);margin-bottom:8px}
+.pkg-tagline{font-size:15px;color:var(--text-2);line-height:1.6}
+.pkg-price{display:flex;align-items:baseline;gap:8px;padding:20px 24px;
+           background:var(--surface-2);border-radius:var(--r-md);border:1px solid var(--border)}
+.pkg-price-amount{font-family:var(--font-display);font-size:36px;font-weight:800;
+                  letter-spacing:-1px;color:var(--text-1)}
+.pkg-price-note{font-size:13px;color:var(--text-3)}
+.pkg-for{font-size:13px;color:var(--text-2);padding:14px 18px;
+         background:var(--surface-3);border-radius:var(--r-md);
+         border-left:3px solid var(--primary)}
+.pkg-includes{}
+.pkg-includes-title{font-size:11px;font-weight:600;text-transform:uppercase;
+                    letter-spacing:1.5px;color:var(--text-3);margin-bottom:14px}
+.pkg-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.pkg-list li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--text-2)}
+.pkg-list li::before{content:'→';color:var(--primary-lt);flex-shrink:0;font-size:13px;margin-top:2px}
+.pkg-list.not li::before{content:'×';color:var(--text-3)}
+.pkg-list.not li{color:var(--text-3)}
+.pkg-meta{display:flex;gap:12px;flex-wrap:wrap}
+.pkg-meta-item{display:flex;flex-direction:column;gap:3px;padding:12px 16px;
+               background:var(--surface-3);border-radius:var(--r-md);flex:1;min-width:100px}
+.pkg-meta-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+.pkg-meta-val{font-size:14px;font-weight:600;color:var(--text-1)}
+.pkg-payment{font-size:13px;color:var(--text-2);padding:14px 18px;
+             background:var(--surface-2);border-radius:var(--r-md)}
+.pkg-cta{display:inline-flex;align-items:center;justify-content:center;
+         padding:14px 28px;border-radius:var(--r-md);font-size:14px;
+         font-weight:600;letter-spacing:-.2px;cursor:pointer;
+         text-decoration:none;transition:.2s;width:100%}
+.pkg-cta.primary{background:var(--primary);color:#fff;border:none}
+.pkg-cta.outline{background:transparent;color:var(--text-1);border:1px solid var(--border-2)}
+.pkg-cta.outline:hover{border-color:var(--primary);color:var(--primary-lt)}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;
+       font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.badge-green{background:var(--green-dim);border:1px solid rgba(16,185,129,.3);color:var(--green)}
+.badge-primary{background:var(--primary-glow);border:1px solid var(--primary);color:var(--primary-lt)}
+.badge-amber{background:var(--amber-dim);border:1px solid rgba(245,158,11,.3);color:var(--amber)}
+.badge-cyan{background:var(--cyan-dim);border:1px solid rgba(34,211,238,.3);color:var(--cyan)}
+
+/* ADDONS */
+.addon{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-lg);
+       padding:24px;display:flex;flex-direction:column;gap:12px}
+.addon-name{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-1)}
+.addon-price{font-family:var(--font-mono);font-size:13px;color:var(--cyan)}
+
+/* COMPARISON */
+.cmp-table{width:100%;border-collapse:collapse}
+.cmp-table th{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+              color:var(--text-3);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+.cmp-table td{padding:14px 16px;font-size:13px;color:var(--text-2);border-bottom:1px solid var(--border)}
+.cmp-table td.yes{color:var(--green);font-weight:600}
+.cmp-table td.no{color:var(--text-3)}
+.cmp-table td.pkg-col{color:var(--text-1);font-weight:600}
+
+ul.styled{list-style:none;display:flex;flex-direction:column;gap:10px}
+ul.styled li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--text-2)}
+ul.styled li::before{content:'→';color:var(--primary-lt);flex-shrink:0;font-size:13px;margin-top:2px}
+
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  nav{padding:0 20px}.page{padding:0 20px}
+  .nav-links{display:none}
+  .pkg{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 248 48" xmlns="http://www.w3.org/2000/svg" fill="none" style="height:26px;width:auto">
+      <defs><linearGradient id="ng" x1="5" y1="9" x2="43" y2="42" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#818CF8"/><stop offset="100%" stop-color="#5B5FE8"/>
+      </linearGradient></defs>
+      <line x1="5" y1="9" x2="24" y2="42" stroke="url(#ng)" stroke-width="3.2" stroke-linecap="round"/>
+      <line x1="43" y1="5" x2="24" y2="42" stroke="url(#ng)" stroke-width="3.2" stroke-linecap="round"/>
+      <circle cx="24" cy="42" r="3.8" fill="#5B5FE8"/>
+      <circle cx="43" cy="5" r="2.4" fill="#22D3EE"/>
+      <text x="60" y="32" font-family="'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif"
+            font-weight="800" font-size="24" fill="#E8EAF4" letter-spacing="-0.6">VELORA</text>
+      <text x="61.5" y="46" font-family="'Plus Jakarta Sans','Helvetica Neue',Arial,sans-serif"
+            font-weight="500" font-size="10.5" fill="#8B8DA8" letter-spacing="4.5">LABS</text>
+    </svg>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#audit">Audit</a></li>
+    <li><a href="#start">Start</a></li>
+    <li><a href="#build">Build</a></li>
+    <li><a href="#grow">Grow</a></li>
+    <li><a href="#addons">Add-ons</a></li>
+    <li><a href="#care">Care</a></li>
+    <li><a href="#compare">Comparativa</a></li>
+    <li><a href="#condiciones">Condiciones</a></li>
+  </ul>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-grid"></div>
+  <div class="page cover-content" style="width:100%">
+    <p style="font-family:var(--font-mono);font-size:11px;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px">Servicios · Paquetes · 2026</p>
+    <h1 style="font-family:var(--font-display);font-size:clamp(40px,6vw,80px);font-weight:800;line-height:.95;letter-spacing:-2.5px;margin-bottom:24px">
+      Lo que<br><span style="color:var(--primary-lt)">construimos</span><br>juntos.
+    </h1>
+    <p style="font-size:17px;color:var(--text-2);max-width:520px;line-height:1.7;margin-bottom:32px">
+      Cuatro productos diseñados para distintas etapas de crecimiento. Todos con la misma premisa: dejamos sistemas funcionando, no solo archivos entregados.
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <span class="badge badge-green">Velora Start</span>
+      <span class="badge badge-primary">Velora Build</span>
+      <span class="badge badge-cyan">Velora Grow</span>
+      <span class="badge badge-amber">Velora Audit</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AUDIT ══════════════════════════════════════════════════ -->
+<section id="audit">
+<div class="page">
+  <p class="section-label">Punto de entrada</p>
+  <h2 class="section-title">Velora Audit</h2>
+  <p style="font-size:17px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    El diagnóstico que clarifica qué está frenando el crecimiento y qué mover primero. Sirve para cualquier tipo de negocio — y el costo se acredita completo si contratas cualquier paquete mayor.
+  </p>
+  <div class="grid-2">
+    <div class="pkg" style="border-top:3px solid var(--amber)">
+      <div class="pkg-header">
+        <p class="pkg-label">Velora Audit</p>
+        <p class="pkg-name" style="color:var(--amber)">El diagnóstico.</p>
+        <p class="pkg-tagline">Antes de construir, hay que saber qué está roto y qué ya está funcionando.</p>
+      </div>
+      <div class="pkg-price">
+        <span class="pkg-price-amount">MX$3,500</span>
+        <span class="pkg-price-note">pago único · acreditable</span>
+      </div>
+      <div class="pkg-for">
+        <strong style="color:var(--text-1)">Para quién:</strong> Cualquier negocio que quiere saber exactamente qué necesita antes de invertir. También para clientes que no saben por dónde empezar.
+      </div>
+      <div class="pkg-includes">
+        <p class="pkg-includes-title">Qué incluye</p>
+        <ul class="pkg-list">
+          <li>Sesión estratégica de 90 minutos (videollamada)</li>
+          <li>Auditoría de marca y presencia visual actual</li>
+          <li>Revisión de presencia digital: sitio, redes, Google Business</li>
+          <li>Análisis de Meta Ads activos (si existen)</li>
+          <li>Identificación de gaps en automatización y seguimiento</li>
+          <li>Entrega: plan de acción escrito con prioridades y quick wins</li>
+        </ul>
+      </div>
+      <div class="pkg-meta">
+        <div class="pkg-meta-item">
+          <span class="pkg-meta-label">Entrega</span>
+          <span class="pkg-meta-val">5 días hábiles</span>
+        </div>
+        <div class="pkg-meta-item">
+          <span class="pkg-meta-label">Pago</span>
+          <span class="pkg-meta-val">100% upfront</span>
+        </div>
+        <div class="pkg-meta-item">
+          <span class="pkg-meta-label">Crédito</span>
+          <span class="pkg-meta-val">MX$3,500 aplicables</span>
+        </div>
+      </div>
+      <p class="pkg-payment" style="border-left:3px solid var(--amber)">
+        El monto del Audit se acredita al contratar cualquier paquete dentro de los siguientes <strong style="color:var(--amber)">30 días naturales</strong>. Pasado ese plazo, el crédito no aplica.
+      </p>
+      <a href="#" class="pkg-cta outline">Solicitar diagnóstico →</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="card">
+        <p class="section-label">Lo que entregamos</p>
+        <p style="font-size:15px;color:var(--text-1);font-weight:600;margin-bottom:12px">Plan de acción con 3 niveles:</p>
+        <ul class="styled">
+          <li><strong style="color:var(--text-1)">Quick wins</strong> — lo que se puede mejorar esta semana sin costo</li>
+          <li><strong style="color:var(--text-1)">Prioridades 30 días</strong> — qué resolver primero para ver resultados rápido</li>
+          <li><strong style="color:var(--text-1)">Roadmap 90 días</strong> — el sistema completo que necesita el negocio</li>
+        </ul>
+      </div>
+      <div class="card" style="background:var(--surface-2)">
+        <p class="section-label">Por qué empezar aquí</p>
+        <p style="font-size:14px;color:var(--text-2);line-height:1.7">
+          La mayoría de negocios invierten en lo que creen que necesitan. El Audit revela lo que realmente necesitan. Eso evita gastar en el paquete equivocado — y hace que el paquete correcto funcione mucho mejor.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ START ══════════════════════════════════════════════════ -->
+<section id="start">
+<div class="page">
+  <p class="section-label">Velora Start — Core Market</p>
+  <h2 class="section-title">Para negocios con<br>potencial sin explotar.</h2>
+  <p style="font-size:17px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    Tu negocio ya tiene valor. Velora Start le da la presencia, estructura y automatización básica para que más personas lo encuentren — y para que no pierdas clientes por falta de seguimiento.
+  </p>
+  <div class="pkg" style="border-top:3px solid var(--green)">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="pkg-header">
+          <p class="pkg-label">Velora Start</p>
+          <p class="pkg-name" style="color:var(--green)">Presencia. Estructura. Sistema.</p>
+          <p class="pkg-tagline">Todo lo que un negocio necesita para verse profesional, ser encontrado y no perder clientes por falta de seguimiento.</p>
+        </div>
+        <div class="pkg-price">
+          <span class="pkg-price-amount">MX$28,000</span>
+          <span class="pkg-price-note">proyecto único</span>
+        </div>
+        <div class="pkg-for">
+          <strong style="color:var(--text-1)">Para quién:</strong> Negocios pequeños con buen producto o servicio pero presencia digital débil o inexistente. Primera vez que invierten en marca y digital de forma seria.
+        </div>
+        <div class="pkg-meta">
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Entrega</span>
+            <span class="pkg-meta-val">10–15 días hábiles</span>
+          </div>
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Pago</span>
+            <span class="pkg-meta-val">50% · 50%</span>
+          </div>
+        </div>
+        <p class="pkg-payment" style="border-left:3px solid var(--green)">
+          50% al inicio del proyecto · 50% en entrega final. Plan de pago disponible en casos especiales (consultar).<br><br>
+        <span style="color:var(--amber);font-size:12px;font-weight:600">⚡ Precio de lanzamiento para los primeros 3 proyectos.</span> Precio regular: MX$32,000. Vigencia: hasta completar los 3 proyectos inaugurales.
+        </p>
+        <a href="#" class="pkg-cta primary">Comenzar con diagnóstico →</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="pkg-includes">
+          <p class="pkg-includes-title">Qué incluye</p>
+          <ul class="pkg-list">
+            <li>Identidad visual: logo (2 propuestas, 1 ronda de refinamiento incluida)</li>
+            <li>Paleta de colores + tipografía + brand guidelines básico</li>
+            <li>Landing page o sitio web (hasta 5 secciones)</li>
+            <li>Dominio + hosting: configuración y costo inicial por 1 año, preferentemente bajo cuenta propiedad del cliente</li>
+            <li>Google Business Profile configurado y optimizado</li>
+            <li>Perfiles de redes sociales configurados (IG + FB)</li>
+            <li>Copy base para landing generado con IA a partir de cuestionario estratégico</li>
+            <li>Seguimiento automático de prospectos (formulario → WhatsApp/email)</li>
+            <li>Sesión de entrega y capacitación (30 min)</li>
+          </ul>
+        </div>
+        <div class="pkg-includes">
+          <p class="pkg-includes-title" style="color:var(--text-3)">No incluye</p>
+          <ul class="pkg-list not">
+            <li>Edición de fotos o videos del cliente</li>
+            <li>Copywriting avanzado, guiones comerciales o campañas de contenido</li>
+            <li>Gestión mensual de redes o campañas</li>
+            <li>Materiales físicos o impresos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ BUILD ══════════════════════════════════════════════════ -->
+<section id="build">
+<div class="page">
+  <p class="section-label">Velora Build</p>
+  <h2 class="section-title">Para negocios listos<br>para sistematizar.</h2>
+  <p style="font-size:17px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    Marca, captación y automatización conectados como un solo sistema. Para negocios que ya tienen tracción y quieren crecer sin improvisar cada mes.
+  </p>
+  <div class="pkg" style="border-top:3px solid var(--primary)">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="pkg-header">
+          <p class="pkg-label">Velora Build</p>
+          <p class="pkg-name" style="color:var(--primary-lt)">El sistema completo.</p>
+          <p class="pkg-tagline">Brand system + sitio robusto + Meta Ads + automatizaciones + analytics. Todo conectado, todo midiendo.</p>
+        </div>
+        <div class="pkg-price">
+          <span class="pkg-price-amount">MX$65,000</span>
+          <span class="pkg-price-note">proyecto único · desde</span>
+        </div>
+        <div class="pkg-for">
+          <strong style="color:var(--text-1)">Para quién:</strong> SMBs, startups y negocios con operación establecida que necesitan marca sólida, sistema de captación y automatizaciones que funcionen sin intervención manual constante.
+        </div>
+        <div class="pkg-meta">
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Entrega</span>
+            <span class="pkg-meta-val">20–30 días hábiles</span>
+          </div>
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Pago</span>
+            <span class="pkg-meta-val">40 · 30 · 30</span>
+          </div>
+        </div>
+        <p class="pkg-payment" style="border-left:3px solid var(--primary)">
+          40% al inicio · 30% a mitad de proyecto · 30% en entrega final. Scope personalizado disponible para proyectos más complejos.
+        </p>
+        <a href="#" class="pkg-cta primary">Solicitar sesión estratégica →</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="pkg-includes">
+          <p class="pkg-includes-title">Qué incluye</p>
+          <ul class="pkg-list">
+            <li>Brand system completo (logo, guidelines, assets digitales)</li>
+            <li>Sitio web completo (hasta 8 páginas + blog)</li>
+            <li>Dominio + hosting: configuración y costo inicial por 1 año, preferentemente bajo cuenta propiedad del cliente</li>
+            <li>Meta Ads: setup de cuenta + lanzamiento de primera campaña</li>
+            <li>CRM básico configurado (pipeline de prospectos)</li>
+            <li>Automatizaciones avanzadas: seguimiento de leads, alertas, publicación programada, reportes automáticos</li>
+            <li>Google Business + SEO técnico base</li>
+            <li>Analytics dashboard (GA4 + Meta Pixel)</li>
+            <li>2 sesiones estratégicas incluidas</li>
+            <li>Sesión de entrega y capacitación (1 hora)</li>
+          </ul>
+        </div>
+        <div class="pkg-includes">
+          <p class="pkg-includes-title" style="color:var(--text-3)">No incluye</p>
+          <ul class="pkg-list not">
+            <li>Presupuesto de pauta (inversión del cliente, recomendado MX$3,000–8,000/mes)</li>
+            <li>Producción de video o fotografía profesional</li>
+            <li>Gestión mensual continua (ver Velora Grow)</li>
+            <li>Desarrollo personalizado a medida</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ GROW ══════════════════════════════════════════════════ -->
+<section id="grow">
+<div class="page">
+  <p class="section-label">Velora Grow — Retainer</p>
+  <h2 class="section-title">El sistema que sigue<br>trabajando.</h2>
+  <p style="font-size:17px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    Gestión continua de contenido, campañas y optimizaciones. Para negocios que ya tienen su base construida y quieren crecer mes con mes sin tener que operar el marketing ellos mismos.
+  </p>
+  <div class="pkg" style="border-top:3px solid var(--cyan)">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="pkg-header">
+          <p class="pkg-label">Velora Grow</p>
+          <p class="pkg-name" style="color:var(--cyan)">Crecimiento continuo.</p>
+          <p class="pkg-tagline">Contenido diario, campañas activas, reportes claros. Tu marketing operando solo mientras tú te enfocas en el negocio.</p>
+        </div>
+        <div class="pkg-price">
+          <span class="pkg-price-amount">desde MX$12,000</span>
+          <span class="pkg-price-note">/ mes · mínimo 3 meses</span>
+        </div>
+        <div class="pkg-for">
+          <strong style="color:var(--text-1)">Para quién:</strong> Negocios con marca y sitio establecidos que necesitan presencia constante, campañas activas y alguien que mida y optimice mes con mes.
+        </div>
+        <div class="pkg-meta">
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Compromiso</span>
+            <span class="pkg-meta-val">Mín. 3 meses</span>
+          </div>
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Onboarding</span>
+            <span class="pkg-meta-val">MX$3,000 único</span>
+          </div>
+          <div class="pkg-meta-item">
+            <span class="pkg-meta-label">Pago</span>
+            <span class="pkg-meta-val">Mensual anticipado</span>
+          </div>
+        </div>
+        <p class="pkg-payment" style="border-left:3px solid var(--cyan)">
+          Primer mes incluye fee de onboarding de MX$3,000 (configuración inicial, accesos, calendario). A partir del mes 2, solo el fee mensual. Presupuesto de pauta es adicional y del cliente.
+        </p>
+        <a href="#" class="pkg-cta primary" style="background:var(--cyan);color:var(--black)">Solicitar información →</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="pkg-includes">
+          <p class="pkg-includes-title">Qué incluye (mensual)</p>
+          <ul class="pkg-list">
+            <li>Calendario de contenido mensual</li>
+            <li>Publicación diaria automatizada (programación inteligente de contenido)</li>
+            <li>2–3 posts diseñados por semana (IG + FB)</li>
+            <li>Gestión de campañas Meta Ads activas</li>
+            <li>Reporte mensual de resultados (métricas clave)</li>
+            <li>1 sesión estratégica mensual (30 min)</li>
+            <li>Soporte vía WhatsApp / email (Lun–Vie)</li>
+            <li>Optimizaciones continuas de campañas y contenido</li>
+          </ul>
+        </div>
+        <div class="pkg-includes">
+          <p class="pkg-includes-title" style="color:var(--text-3)">No incluye</p>
+          <ul class="pkg-list not">
+            <li>Presupuesto de pauta (recomendado MX$3,000–8,000/mes)</li>
+            <li>Producción de video o foto profesional</li>
+            <li>Cambios al sitio web</li>
+            <li>Campañas nuevas fuera del scope acordado</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Grow levels internal -->
+  <div style="margin-top:40px">
+    <p class="section-label">Niveles internos — Velora Grow</p>
+    <p style="font-size:14px;color:var(--text-2);margin-bottom:24px;max-width:580px">Referencia interna de pricing. En el sitio público mostrar solo "desde MX$12,000/mes". El nivel se define durante la sesión de onboarding según necesidades del cliente.</p>
+    <div class="grid-3">
+      <div class="card" style="border-top:3px solid var(--cyan)">
+        <p class="card-label" style="color:var(--cyan)">Grow Lite</p>
+        <p style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--text-1);margin:12px 0">MX$12,000<span style="font-size:14px;font-weight:500;color:var(--text-3)">/mes</span></p>
+        <ul class="pkg-list" style="font-size:13px">
+          <li>Calendario de contenido mensual</li>
+          <li>Publicación diaria automatizada con contenido provisto por el cliente o piezas previamente aprobadas</li>
+          <li>Reporte mensual básico</li>
+          <li>Soporte Lun–Vie</li>
+        </ul>
+        <p style="font-size:12px;color:var(--text-3);margin-top:12px">Sin diseño semanal de posts ni gestión de campañas pagadas</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--primary)">
+        <p class="card-label">Grow Performance</p>
+        <p style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--text-1);margin:12px 0">MX$20,000<span style="font-size:14px;font-weight:500;color:var(--text-3)">/mes</span></p>
+        <ul class="pkg-list" style="font-size:13px">
+          <li>Todo lo de Grow Lite</li>
+          <li>2–3 posts diseñados por semana</li>
+          <li>Gestión de campañas Meta Ads</li>
+          <li>Optimización continua de campañas</li>
+          <li>Sesión estratégica mensual</li>
+        </ul>
+        <p style="font-size:12px;color:var(--text-3);margin-top:12px">Pauta del cliente no incluida</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--amber)">
+        <p class="card-label" style="color:var(--amber)">Grow Partner</p>
+        <p style="font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--text-1);margin:12px 0">MX$30,000+<span style="font-size:14px;font-weight:500;color:var(--text-3)">/mes</span></p>
+        <ul class="pkg-list" style="font-size:13px">
+          <li>Todo lo de Grow Performance</li>
+          <li>Estrategia de crecimiento mensual</li>
+          <li>Automatizaciones continuas</li>
+          <li>Mejoras al sitio incluidas</li>
+          <li>Reportes avanzados con KPIs</li>
+          <li>Acceso prioritario al equipo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ CARE ══════════════════════════════════════════════════ -->
+<section id="care">
+<div class="page">
+  <p class="section-label">Mantenimiento y soporte</p>
+  <h2 class="section-title">Velora Care.</h2>
+  <p style="font-size:17px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    Para clientes que ya tienen su sitio entregado y quieren que siga funcionando bien sin depender de Velora Grow. Mantenimiento técnico, respaldos y cambios menores sin necesidad de un retainer de marketing completo.
+  </p>
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--border-2)">
+      <p class="card-label">Care Basic</p>
+      <p style="font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--text-1);margin:12px 0">MX$1,500<span style="font-size:13px;font-weight:500;color:var(--text-3)">/mes</span></p>
+      <ul class="pkg-list" style="margin-top:12px">
+        <li>Hosting activo + monitoreo básico</li>
+        <li>Respaldo mensual del sitio</li>
+        <li>1 cambio menor por mes (texto, imagen, link)</li>
+        <li>Soporte técnico ante caídas</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--cyan)">
+      <p class="card-label" style="color:var(--cyan)">Care Plus</p>
+      <p style="font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--text-1);margin:12px 0">MX$3,500<span style="font-size:13px;font-weight:500;color:var(--text-3)">/mes</span></p>
+      <ul class="pkg-list" style="margin-top:12px">
+        <li>Todo lo de Care Basic</li>
+        <li>3 cambios menores por mes</li>
+        <li>Soporte prioritario (respuesta en 4 horas)</li>
+        <li>Revisión mensual de velocidad y seguridad</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid var(--primary)">
+      <p class="card-label">Care Growth</p>
+      <p style="font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--text-1);margin:12px 0">MX$5,500<span style="font-size:13px;font-weight:500;color:var(--text-3)">/mes</span></p>
+      <ul class="pkg-list" style="margin-top:12px">
+        <li>Todo lo de Care Plus</li>
+        <li>Bolsa mensual de hasta 4 horas para cambios menores y ajustes operativos</li>
+        <li>Optimizaciones básicas de SEO mensual</li>
+        <li>Revisión y mejora de automatizaciones existentes</li>
+        <li>Reporte mensual de salud del sitio</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="background:var(--surface-2);margin-top:20px">
+    <p style="font-size:14px;color:var(--text-2);line-height:1.7">
+      <strong style="color:var(--text-1)">¿Qué cuenta como "cambio menor"?</strong> Actualizar texto, cambiar una imagen, agregar un enlace, modificar horarios o datos de contacto. Cambios de diseño, nuevas secciones o funcionalidades se cotizan aparte.
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- ══ ADD-ONS ══════════════════════════════════════════════ -->
+<section id="addons">
+<div class="page">
+  <p class="section-label">Servicios adicionales</p>
+  <h2 class="section-title">Add-ons.</h2>
+  <p style="font-size:17px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    Servicios que se pueden contratar de forma independiente o como complemento a cualquier paquete.
+  </p>
+  <div class="grid-3">
+    <div class="addon">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <p class="addon-name">Velora Automate</p>
+        <span class="badge badge-cyan">Add-on</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6">Flujo de automatización personalizado vía n8n. Integraciones, workflows, reportes automáticos, CRM, notificaciones.</p>
+      <p class="addon-price">MX$5,000 – 15,000</p>
+      <p style="font-size:12px;color:var(--text-3)">Según complejidad del flujo</p>
+    </div>
+    <div class="addon">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <p class="addon-name">Velora Founder OS</p>
+        <span class="badge badge-primary">Add-on</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6">Marca personal + sistema de contenido + distribución para founders que quieren ser reconocidos en su vertical.</p>
+      <p class="addon-price">MX$20,000 – 28,000</p>
+      <p style="font-size:12px;color:var(--text-3)">Proyecto único · 2–3 semanas</p>
+    </div>
+    <div class="addon">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <p class="addon-name">Campaña Meta Extra</p>
+        <span class="badge badge-amber">Add-on</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6">Lanzamiento de campaña adicional fuera del scope del retainer. Incluye estrategia, creativos y setup.</p>
+      <p class="addon-price">MX$3,500</p>
+      <p style="font-size:12px;color:var(--text-3)">Por campaña · no incluye pauta</p>
+    </div>
+    <div class="addon">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <p class="addon-name">WhatsApp Automation</p>
+        <span class="badge badge-cyan">Add-on</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6">Setup de automatización de WhatsApp Business: bienvenidas, seguimiento de leads, respuestas automáticas.</p>
+      <p class="addon-price">MX$4,500</p>
+      <p style="font-size:12px;color:var(--text-3)">Setup único</p>
+    </div>
+    <div class="addon">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <p class="addon-name">Landing Page Extra</p>
+        <span class="badge badge-green">Add-on</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6">Landing page adicional para campaña específica, producto o evento. Incluye diseño, copy base y formulario.</p>
+      <p class="addon-price">MX$8,000 – 12,000</p>
+      <p style="font-size:12px;color:var(--text-3)">Según complejidad</p>
+    </div>
+    <div class="addon">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <p class="addon-name">Analytics Setup</p>
+        <span class="badge badge-primary">Add-on</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6">Configuración de GA4, Meta Pixel, Google Tag Manager y dashboard de reportes con métricas clave del negocio.</p>
+      <p class="addon-price">MX$5,500</p>
+      <p style="font-size:12px;color:var(--text-3)">Setup único</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ══ COMPARE ══════════════════════════════════════════════ -->
+<section id="compare">
+<div class="page">
+  <p class="section-label">Comparativa</p>
+  <h2 class="section-title">¿Cuál es el tuyo?</h2>
+  <hr style="border:none;border-top:1px solid var(--border);margin:32px 0">
+  <div style="overflow-x:auto">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>Qué incluye</th>
+          <th style="color:var(--amber)">Audit</th>
+          <th style="color:var(--green)">Start</th>
+          <th style="color:var(--primary-lt)">Build</th>
+          <th style="color:var(--cyan)">Grow</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="pkg-col">Diagnóstico y plan de acción</td>
+          <td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Identidad visual / logo</td>
+          <td class="no">—</td><td class="yes">✓ Base</td><td class="yes">✓ Completo</td><td class="no">—</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Sitio web o landing</td>
+          <td class="no">—</td><td class="yes">✓ Landing</td><td class="yes">✓ Sitio completo</td><td class="no">—</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Google Business + SEO base</td>
+          <td class="no">—</td><td class="yes">✓</td><td class="yes">✓ Avanzado</td><td class="no">—</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Meta Ads setup</td>
+          <td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓ Gestión</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Automatizaciones n8n</td>
+          <td class="no">—</td><td class="yes">✓ Básica</td><td class="yes">✓ Avanzada</td><td class="yes">✓ Continua</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">CRM básico</td>
+          <td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Contenido mensual + publicación</td>
+          <td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Reporte mensual</td>
+          <td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Dominio + hosting 1 año</td>
+          <td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">—</td>
+        </tr>
+        <tr style="border-top:2px solid var(--border)">
+          <td class="pkg-col" style="font-size:15px">Precio</td>
+          <td style="color:var(--amber);font-weight:700">MX$3,500</td>
+          <td style="color:var(--green);font-weight:700">MX$28,000 <span style="font-size:11px;color:var(--text-3)">lanzamiento / $32k regular</span></td>
+          <td style="color:var(--primary-lt);font-weight:700">Desde MX$65,000</td>
+          <td style="color:var(--cyan);font-weight:700">Desde MX$12,000/mes</td>
+        </tr>
+        <tr>
+          <td class="pkg-col">Tiempo de entrega</td>
+          <td>5 días</td><td>10–15 días</td><td>20–30 días</td><td>Continuo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ══ CONDICIONES ══════════════════════════════════════════ -->
+<section id="condiciones">
+<div class="page">
+  <p class="section-label">Condiciones generales</p>
+  <h2 class="section-title">Cómo trabajamos.</h2>
+  <p style="font-size:15px;color:var(--text-2);max-width:600px;margin-bottom:40px;line-height:1.7">
+    Estas condiciones protegen tanto al cliente como a Velora Labs. Leerlas evita malentendidos y hace que los proyectos lleguen a tiempo.
+  </p>
+  <div class="grid-2">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card" style="border-left:3px solid var(--primary)">
+        <p style="font-size:13px;font-weight:600;color:var(--primary-lt);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Obligaciones del cliente</p>
+        <ul class="pkg-list">
+          <li>Entregar materiales, accesos, textos base y aprobaciones en un máximo de <strong style="color:var(--text-1)">48 horas hábiles</strong> tras cada solicitud</li>
+          <li>Retrasos del cliente pausan el contador de entrega — los tiempos aplican solo cuando los materiales están completos</li>
+          <li>Designar un contacto único para aprobaciones y comunicación durante el proyecto</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--cyan)">
+        <p style="font-size:13px;font-weight:600;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Política de revisiones</p>
+        <ul class="pkg-list">
+          <li><strong style="color:var(--text-1)">Velora Start:</strong> 1 ronda de refinamiento incluida por entregable</li>
+          <li><strong style="color:var(--text-1)">Velora Build:</strong> 2 rondas por fase del proyecto</li>
+          <li>Cambios fuera del scope original o rondas adicionales se cotizan por separado</li>
+          <li>Cambios de dirección creativa después de aprobación inicial cuentan como nueva ronda</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green)">
+        <p style="font-size:13px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Dominio y hosting</p>
+        <ul class="pkg-list">
+          <li>Preferimos que dominio, hosting y herramientas queden bajo cuentas propiedad del cliente — Velora Labs apoya con la configuración inicial</li>
+          <li>Renovaciones, mantenimiento posterior, correos empresariales y soporte técnico no están incluidos salvo contrato activo de Velora Grow o Velora Care</li>
+          <li>El cliente conserva propiedad total de dominio, sitio y activos digitales una vez liquidado el proyecto</li>
+        </ul>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card" style="border-left:3px solid var(--amber)">
+        <p style="font-size:13px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Vigencia de propuesta</p>
+        <ul class="pkg-list">
+          <li>Los precios presentados tienen vigencia de <strong style="color:var(--text-1)">15 días naturales</strong> desde la fecha de envío</li>
+          <li>Pasado ese plazo, la propuesta puede ajustarse según disponibilidad y condiciones vigentes</li>
+          <li>El crédito del Velora Audit aplica dentro de los <strong style="color:var(--text-1)">30 días naturales</strong> posteriores al diagnóstico</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--primary)">
+        <p style="font-size:13px;font-weight:600;color:var(--primary-lt);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Propiedad y entregables</p>
+        <ul class="pkg-list">
+          <li>Los activos diseñados (logo, sitio, assets) son del cliente una vez completado el pago total</li>
+          <li>Velora Labs puede usar el proyecto como referencia en portafolio salvo acuerdo de confidencialidad explícito</li>
+          <li>El código fuente, automatizaciones y configuraciones quedan disponibles para el cliente en la entrega final</li>
+        </ul>
+      </div>
+      <div class="card" style="background:var(--surface-2)">
+        <p style="font-size:13px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Comunicación y soporte</p>
+        <ul class="pkg-list">
+          <li>Canal principal: WhatsApp + email (Lun–Vie, 9am–7pm)</li>
+          <li>Tiempo de respuesta: máximo 24 horas hábiles</li>
+          <li>Soporte post-entrega incluido por <strong style="color:var(--text-1)">7 días</strong> para correcciones menores del entregable</li>
+          <li>Soporte extendido disponible mediante Velora Care (ver sección)</li>
+          <li>Solicitudes de cambios deben enviarse por escrito en el canal acordado — mensajes informales por WhatsApp no constituyen aprobación ni solicitud formal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer style="padding:48px 0;text-align:center;border-top:1px solid var(--border)">
+<div class="page">
+  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none" style="height:32px;width:auto;margin:0 auto 16px">
+    <defs><linearGradient id="fg" x1="5" y1="8" x2="43" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#818CF8"/><stop offset="100%" stop-color="#5B5FE8"/>
+    </linearGradient></defs>
+    <line x1="5" y1="8" x2="24" y2="41" stroke="url(#fg)" stroke-width="3.2" stroke-linecap="round"/>
+    <line x1="43" y1="4" x2="24" y2="41" stroke="url(#fg)" stroke-width="3.2" stroke-linecap="round"/>
+    <circle cx="24" cy="41" r="3.8" fill="#5B5FE8"/>
+    <circle cx="43" cy="4" r="2.4" fill="#22D3EE"/>
+  </svg>
+  <p style="font-family:var(--font-mono);font-size:11px;color:var(--text-3);letter-spacing:2px">
+    VELORA LABS · PAQUETES Y SERVICIOS · DOCUMENTO INTERNO
+  </p>
+  <p style="font-size:12px;color:var(--text-3);margin-top:8px">
+    Precios en MXN. No incluyen IVA salvo que se indique lo contrario. Sujetos a ajuste según scope y mercado.
+  </p>
+</div>
+</footer>
+
+</body>
+</html>
