@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velora Labs — Your Growth. Engineered.</title>
+<meta name="description" content="Velora Labs conecta marca, captación y automatización en sistemas de crecimiento para negocios listos para dejar de improvisar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ─── TOKENS ──────────────────────────────────────────── */
+:root {
+  --ink:         #080709;
+  --ink-2:       #0E0D12;
+  --ink-3:       #141318;
+  --rule:        #1E1C28;
+  --rule-2:      #262432;
+  --violet:      #5B5FE8;
+  --violet-lt:   #818CF8;
+  --cyan:        #22D3EE;
+  --green:       #10B981;
+  --amber:       #F59E0B;
+  --snow:        #E8EAF4;
+  --mist:        #9698B8;
+  --dim:         #4E5075;
+  --jk: "Plus Jakarta Sans", "Helvetica Neue", sans-serif;
+  --it: "Inter", "Helvetica Neue", sans-serif;
+  --mo: "JetBrains Mono", "Fira Code", monospace;
+  --expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; color-scheme: dark; font-size: 16px; }
+body {
+  background: var(--ink); color: var(--snow);
+  font-family: var(--it); line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* Grain */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+}
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.bound { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 4.5vw, 64px); }
+
+/* ─── REVEAL ──────────────────────────────────────────── */
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--expo), transform .7s var(--expo); }
+.rv.on { opacity: 1; transform: none; }
+.rv1 { transition-delay: .08s; } .rv2 { transition-delay: .16s; }
+.rv3 { transition-delay: .24s; } .rv4 { transition-delay: .32s; }
+
+/* ─── KEYFRAMES ───────────────────────────────────────── */
+@keyframes fu { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes fi { from { opacity:0; } to { opacity:1; } }
+@keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.fu { animation: fu .75s var(--expo) both; } .fi { animation: fi .6s ease both; }
+.d1{animation-delay:.10s;} .d2{animation-delay:.20s;} .d3{animation-delay:.30s;}
+.d4{animation-delay:.40s;} .d5{animation-delay:.50s;}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv, .fu, .fi { animation: none; opacity: 1; transform: none; transition: none; }
+}
+
+/* ─── UTILITY ─────────────────────────────────────────── */
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.mono { font-family: var(--mo); }
+.label {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--violet-lt);
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 68px; display: flex; align-items: center;
+  background: rgba(6,7,13,.8);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(26,29,58,.8);
+  transition: background .3s;
+}
+.nav-wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; width: 100%; max-width: 1280px;
+  margin: 0 auto; padding: 0 clamp(20px,4.5vw,64px);
+}
+.nav-logo {
+  display: flex; align-items: center;
+  flex-shrink: 0; line-height: 0;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-size: 14px; font-weight: 500; color: var(--dim);
+  letter-spacing: .3px;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--mist); }
+.nav-btn {
+  padding: 9px 20px; border-radius: 7px;
+  background: var(--violet); color: #fff;
+  font-size: 14px; font-weight: 600; letter-spacing: .1px;
+  transition: background .2s, transform .15s;
+  flex-shrink: 0; white-space: nowrap;
+}
+.nav-btn:hover { background: var(--violet-lt); transform: translateY(-1px); }
+@media (max-width: 860px) { .nav-links { display: none; } }
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════ */
+.hero {
+  position: relative; min-height: 100svh;
+  display: flex; flex-direction: column;
+  padding-top: 68px; overflow: hidden;
+}
+
+/* ── Cinematic background (video replacement) ── */
+/* Deep warm-dark base */
+.hero-canvas {
+  position: absolute; inset: 0;
+  background: #080608;
+}
+/* Slow-orbiting color masses — simulate video depth */
+@keyframes orb-a {
+  0%   { transform: translate(0%,   0%)   scale(1); }
+  50%  { transform: translate(8%,   12%)  scale(1.08); }
+  100% { transform: translate(-4%,  6%)   scale(.96); }
+}
+@keyframes orb-b {
+  0%   { transform: translate(0%,   0%)   scale(1); }
+  50%  { transform: translate(-10%, -8%)  scale(1.05); }
+  100% { transform: translate(6%,   -14%) scale(.98); }
+}
+@keyframes orb-c {
+  0%   { transform: translate(0%,   0%)   scale(1); }
+  50%  { transform: translate(12%,  -6%)  scale(1.06); }
+  100% { transform: translate(-6%,  10%)  scale(1.02); }
+}
+.hero-orb {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; filter: blur(80px);
+}
+.hero-orb-1 {
+  width: 60vw; height: 60vw; top: -15%; left: 20%;
+  background: radial-gradient(circle, rgba(91,95,232,.18) 0%, transparent 65%);
+  animation: orb-a 22s ease-in-out infinite alternate;
+}
+.hero-orb-2 {
+  width: 50vw; height: 50vw; bottom: -10%; right: -5%;
+  background: radial-gradient(circle, rgba(34,211,238,.09) 0%, transparent 60%);
+  animation: orb-b 28s ease-in-out infinite alternate;
+}
+.hero-orb-3 {
+  width: 40vw; height: 40vw; top: 30%; left: -10%;
+  background: radial-gradient(circle, rgba(91,95,232,.08) 0%, transparent 60%);
+  animation: orb-c 18s ease-in-out infinite alternate;
+}
+/* Dark vignette overlay — edges darker, center breathes */
+.hero-vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, rgba(4,3,6,.7) 100%);
+}
+/* Fine grid on top */
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.4) 50%, transparent 80%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.4) 50%, transparent 80%);
+}
+/* Bottom fade to site background */
+.hero-fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 30%;
+  background: linear-gradient(to bottom, transparent, var(--ink));
+  pointer-events: none;
+}
+
+/* System diagram — right side, visible but not competing */
+.hero-diagram {
+  position: absolute;
+  top: 50%; right: -20px;
+  transform: translateY(-50%) scale(1.2);
+  transform-origin: center right;
+  pointer-events: none; opacity: .15;
+}
+@media (max-width: 1080px) { .hero-diagram { opacity: .08; } }
+@media (max-width: 768px)  { .hero-diagram { display: none; } }
+
+/* Eyebrow */
+.hero-eyebrow {
+  position: relative; z-index: 2;
+  padding: clamp(28px,4vw,52px) 0 0;
+}
+.hero-eyebrow p {
+  font-family: var(--mo); font-size: 12px;
+  letter-spacing: 2.5px; text-transform: uppercase; color: var(--cyan);
+  opacity: .85;
+}
+
+/* Hero split — full-width, left anchored left, right anchored right */
+.hero-stage {
+  position: relative; z-index: 2;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  padding: clamp(40px,6vw,80px) clamp(20px,4.5vw,64px) clamp(56px,8vw,100px);
+  width: 100%;
+}
+
+/* Left col: sub text — flush left, anchored to bottom (same height as CTAs) */
+.hero-left {
+  display: flex; align-items: flex-end;
+}
+.hero-sub {
+  font-family: var(--it); font-size: 14px; font-weight: 300;
+  color: rgba(255,255,255,.42); line-height: 1.8;
+  max-width: 320px;
+}
+
+/* Right col: headline centered, CTAs bottom — flush right */
+.hero-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+/* Wrapper grows to fill space and centers headline within it */
+.hero-h1-wrap {
+  flex: 1;
+  display: flex; align-items: center; justify-content: flex-end;
+}
+h1.hero-h1 {
+  font-family: var(--jk);
+  font-size: clamp(34px, 4.6vw, 64px);
+  font-weight: 700; line-height: 1.08;
+  letter-spacing: -0.03em; color: #fff;
+}
+.hero-h1 .thin  { display: block; font-weight: 300; color: rgba(255,255,255,.5); }
+.hero-h1 .accent{ display: block; color: var(--violet-lt); }
+
+.hero-actions {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 20px; flex-wrap: wrap;
+}
+.btn-solid {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 11px 22px; border-radius: 7px;
+  background: var(--violet); color: #fff;
+  font-size: 13px; font-weight: 600;
+  transition: background .2s, transform .15s, box-shadow .25s;
+  white-space: nowrap;
+}
+.btn-solid:hover {
+  background: var(--violet-lt); transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(91,95,232,.3);
+}
+.btn-text {
+  font-size: 13px; font-weight: 400; color: rgba(255,255,255,.35);
+  transition: color .2s; white-space: nowrap;
+}
+.btn-text span { color: var(--violet-lt); }
+.btn-text:hover { color: rgba(255,255,255,.6); }
+
+/* Bottom rule */
+.hero-rule {
+  position: relative; z-index: 2;
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin: 0 clamp(20px,4.5vw,64px);
+}
+
+@media (max-width: 768px) {
+  .hero-stage {
+    grid-template-columns: 1fr;
+    align-items: flex-start; gap: 36px;
+    padding-bottom: clamp(40px,6vw,64px);
+  }
+  .hero-right { align-items: flex-start; text-align: left; }
+  .hero-actions { justify-content: flex-start; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════════════════════ */
+.belt {
+  overflow: hidden; white-space: nowrap;
+  background: linear-gradient(90deg,
+    rgba(91,95,232,.06) 0%,
+    rgba(91,95,232,.10) 30%,
+    rgba(91,95,232,.06) 70%,
+    rgba(91,95,232,.10) 100%
+  ), var(--ink-2);
+  border-top: 1px solid rgba(91,95,232,.25);
+  border-bottom: 1px solid rgba(91,95,232,.25);
+  padding: 17px 0;
+}
+.belt-track {
+  display: inline-flex; animation: mq 36s linear infinite;
+}
+.belt-item {
+  display: inline-flex; align-items: center; gap: 20px; padding: 0 20px;
+  font-family: var(--mo); font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(232,234,244,.55);
+}
+.belt-item.v {
+  color: var(--violet-lt);
+  opacity: .85;
+}
+.belt-sep {
+  color: var(--violet-lt); font-size: 18px; line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION SHARED
+═══════════════════════════════════════════════════════ */
+.sect {
+  padding: clamp(72px,9vw,128px) 0;
+  border-top: 1px solid var(--rule);
+}
+.sect-dark { background: var(--ink-2); }
+
+.sect-hdr {
+  margin-bottom: clamp(48px,6vw,80px);
+}
+.sect-title {
+  font-family: var(--jk);
+  font-size: clamp(28px,3.8vw,50px);
+  font-weight: 800; line-height: 1.05; letter-spacing: -.03em; color: var(--snow);
+}
+.sect-sub {
+  font-size: 14px; font-weight: 300; color: var(--mist); line-height: 1.75;
+  margin-top: 12px; max-width: 560px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROBLEM — AUDIT TABLE
+═══════════════════════════════════════════════════════ */
+.prob-thead {
+  display: grid; grid-template-columns: 1fr 1fr;
+  padding-bottom: 14px;
+}
+.prob-col {
+  font-family: var(--mo); font-size: 12px;
+  letter-spacing: 2px; text-transform: uppercase; font-weight: 500;
+}
+.prob-col.bad  { color: var(--amber); opacity: .85; }
+.prob-col.good { color: var(--green); padding-left: 36px; }
+@media (max-width: 560px) { .prob-thead { display: none; } }
+
+.prob-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--rule);
+  transition: background .18s;
+}
+.prob-row:last-child { border-bottom: 1px solid var(--rule); }
+.prob-row:hover { background: rgba(255,255,255,.016); }
+.prob-cell {
+  padding: clamp(16px,2.2vw,24px) 8px;
+  display: flex; align-items: center; gap: 16px;
+}
+.prob-cell.right {
+  border-left: 1px solid var(--rule); padding-left: 28px;
+}
+.prob-n {
+  font-family: var(--mo); font-size: 12px;
+  color: var(--mist); flex-shrink: 0; width: 24px; opacity: .7;
+}
+.prob-bad-txt {
+  font-size: 16px; font-weight: 400; color: var(--mist);
+  text-decoration: line-through;
+  text-decoration-color: rgba(245,158,11,.85);
+  text-decoration-thickness: 1.5px;
+}
+.prob-arrow { color: var(--green); flex-shrink: 0; font-size: 14px; }
+.prob-good-txt {
+  font-size: 16px; font-weight: 500; color: var(--snow);
+  transition: color .25s;
+}
+.prob-row:hover .prob-good-txt { color: var(--green); }
+@media (max-width: 560px) {
+  .prob-row { grid-template-columns: 1fr; }
+  .prob-cell.right { border-left: none; border-top: 1px solid var(--rule); padding-left: 8px; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   DIFFERENTIATORS — CLAIM BLOCKS (no bento)
+═══════════════════════════════════════════════════════ */
+
+/* MX × DE — full-width featured claim */
+.claim-featured {
+  position: relative; overflow: hidden;
+  border: 1px solid var(--rule); border-radius: 14px;
+  padding: clamp(24px,3vw,40px);
+  margin-bottom: 2px;
+  background: var(--ink);
+  transition: background .2s;
+}
+.claim-featured:hover { background: #080910; }
+.claim-featured-wm {
+  position: absolute; bottom: -16px; right: -4px;
+  font-family: var(--jk); font-size: clamp(80px,14vw,160px);
+  font-weight: 800; letter-spacing: -.05em;
+  color: var(--violet-lt); opacity: .08;
+  line-height: .85; pointer-events: none; user-select: none;
+}
+.claim-title {
+  font-family: var(--jk);
+  font-size: clamp(18px,2.2vw,26px);
+  font-weight: 700; letter-spacing: -.025em;
+  color: var(--snow); line-height: 1.2;
+  margin-bottom: clamp(20px,2.5vw,32px);
+  max-width: 560px; position: relative; z-index: 1;
+}
+
+/* Two-market split */
+.claim-markets {
+  display: grid; grid-template-columns: 1fr 40px 1fr;
+  gap: 0; align-items: stretch;
+  position: relative; z-index: 1;
+  max-width: 680px;
+}
+.claim-market {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 16px 0;
+}
+.cm-flag {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; font-weight: 500;
+}
+.cm-mx { color: var(--violet-lt); }
+.cm-de { color: var(--cyan); }
+.cm-region {
+  font-family: var(--jk); font-size: clamp(17px,2vw,22px);
+  font-weight: 700; letter-spacing: -.02em; color: var(--snow);
+}
+.cm-tags { display: flex; flex-direction: column; gap: 5px; }
+.cm-tag {
+  font-size: 12.5px; font-weight: 300; color: var(--mist);
+  display: flex; align-items: center; gap: 8px;
+}
+.cm-tag::before {
+  content: ''; display: block;
+  width: 3px; height: 3px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.cm-mx .cm-tag::before { background: var(--violet-lt); }
+.cm-de .cm-tag::before { background: var(--cyan); }
+
+/* Divider with × */
+.claim-divider {
+  display: flex; align-items: center; justify-content: center;
+  border-left: 1px solid var(--rule); border-right: 1px solid var(--rule);
+  margin: 0 4px;
+}
+.claim-x {
+  font-family: var(--jk); font-size: 18px; font-weight: 300;
+  color: var(--dim); letter-spacing: -1px;
+}
+
+@media (max-width: 600px) {
+  .claim-markets { grid-template-columns: 1fr; }
+  .claim-divider { display: none; }
+  .claim-market { border-bottom: 1px solid var(--rule); padding: 20px 0; }
+  .claim-market:last-child { border-bottom: none; }
+}
+
+/* 4 claims in 2×2, no card borders */
+.claims-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+  background: var(--rule);
+}
+.claim-cell {
+  background: var(--ink);
+  padding: clamp(28px,3.5vw,48px);
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; overflow: hidden;
+  transition: background .2s;
+}
+.claim-cell:hover { background: #080910; }
+/* Top shimmer on hover */
+.claim-cell::before {
+  content: ''; position: absolute; top: 0; left: 32px; right: 32px; height: 1px;
+  opacity: 0; transition: opacity .35s;
+}
+.claim-cell:hover::before { opacity: 1; }
+.cs-v::before { background: linear-gradient(90deg,transparent,rgba(129,140,248,.5),transparent); }
+.cs-c::before { background: linear-gradient(90deg,transparent,rgba(34,211,238,.4),transparent); }
+.cs-g::before { background: linear-gradient(90deg,transparent,rgba(16,185,129,.4),transparent); }
+.cs-a::before { background: linear-gradient(90deg,transparent,rgba(245,158,11,.35),transparent); }
+
+.cc-num { font-family: var(--mo); font-size: 10px; letter-spacing: 1.5px; }
+.cs-v .cc-num { color: var(--violet-lt); }
+.cs-c .cc-num { color: var(--cyan); }
+.cs-g .cc-num { color: var(--green); }
+.cs-a .cc-num { color: var(--amber); }
+
+.cc-title {
+  font-family: var(--jk); font-size: clamp(16px,1.8vw,20px);
+  font-weight: 700; letter-spacing: -.02em; color: var(--snow);
+  line-height: 1.25;
+}
+.cc-desc { font-size: 13px; font-weight: 300; color: var(--mist); line-height: 1.7; }
+
+@media (max-width: 560px) {
+  .claims-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   METHOD — EDITORIAL NUMBERED LIST
+═══════════════════════════════════════════════════════ */
+.method-item {
+  display: grid; grid-template-columns: clamp(80px,14vw,200px) 1fr;
+  gap: 24px 48px;
+  padding: clamp(28px,3.5vw,48px) 0;
+  border-top: 1px solid var(--rule);
+  position: relative; overflow: hidden;
+  transition: background .18s;
+  cursor: default;
+}
+.method-item:hover { background: rgba(255,255,255,.013); }
+.method-item:last-child { border-bottom: 1px solid var(--rule); }
+
+/* Ghost step number */
+.method-ghost {
+  position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  font-family: var(--jk);
+  font-size: clamp(90px, 18vw, 240px);
+  font-weight: 800; line-height: 1; letter-spacing: -.06em;
+  color: var(--snow); opacity: .032;
+  pointer-events: none; user-select: none;
+  transition: opacity .3s;
+}
+.method-item:hover .method-ghost { opacity: .06; }
+
+.method-lft { z-index: 1; }
+.method-step-num {
+  font-family: var(--mo); font-size: 12px; color: var(--mist);
+  letter-spacing: 1px; display: block; transition: color .2s;
+}
+.method-item:hover .method-step-num { color: var(--violet-lt); }
+.method-step-sub {
+  display: block; margin-top: 6px;
+  font-family: var(--mo); font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--mist); opacity: .7;
+}
+.method-rgt { z-index: 1; display: flex; flex-direction: column; gap: 8px; }
+.method-name {
+  font-family: var(--jk); font-size: clamp(17px,2vw,22px);
+  font-weight: 700; letter-spacing: -.02em; color: var(--snow);
+  transition: color .2s;
+}
+.method-item:hover .method-name { color: var(--violet-lt); }
+.method-desc {
+  font-size: 13.5px; font-weight: 300; color: var(--mist);
+  line-height: 1.75; max-width: 520px;
+}
+@media (max-width: 640px) {
+  .method-item { grid-template-columns: 60px 1fr; gap: 16px 20px; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ROUTES — SPLIT PANELS
+═══════════════════════════════════════════════════════ */
+.routes-wrap {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+}
+.route {
+  padding: clamp(36px,5vw,64px);
+  display: flex; flex-direction: column; gap: 22px;
+  position: relative; overflow: hidden;
+  transition: background .25s;
+}
+.route:first-child { border-right: 1px solid var(--rule); background: var(--ink-2); }
+.route:last-child {
+  background: linear-gradient(148deg, rgba(91,95,232,.07) 0%, var(--ink-2) 55%);
+}
+.route:hover { background: #0a0b18; }
+
+/* Hover shimmer across the top edge */
+.route-shimmer {
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  opacity: 0; transition: opacity .45s;
+}
+.route:hover .route-shimmer { opacity: 1; }
+.rs-green  { background: linear-gradient(90deg,transparent,var(--green),transparent); }
+.rs-violet { background: linear-gradient(90deg,transparent,var(--violet-lt),transparent); }
+
+.route-meta { display: flex; align-items: center; justify-content: space-between; }
+.route-badge {
+  font-family: var(--mo); font-size: 10px;
+  letter-spacing: 3px; text-transform: uppercase; font-weight: 500;
+}
+.rb-g { color: var(--green); }
+.rb-v { color: var(--violet-lt); }
+.route-idx { font-family: var(--mo); font-size: 10px; color: var(--dim); letter-spacing: 2px; }
+
+.route-title {
+  font-family: var(--jk); font-size: clamp(19px,2.2vw,28px);
+  font-weight: 700; letter-spacing: -.03em;
+  color: var(--snow); line-height: 1.2;
+}
+.route-desc {
+  font-size: 13.5px; font-weight: 300; color: var(--mist);
+  line-height: 1.75; flex: 1;
+}
+.route-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600;
+  transition: gap .18s var(--expo);
+}
+.route-link:hover { gap: 14px; }
+.rl-g { color: var(--green); }
+.rl-v { color: var(--violet-lt); }
+@media (max-width: 700px) {
+  .routes-wrap { grid-template-columns: 1fr; }
+  .route:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SERVICES — CLEAN LIST STRIP
+═══════════════════════════════════════════════════════ */
+.svc-list {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+  background: var(--rule);
+  gap: 1px;
+}
+.svc {
+  background: var(--ink);
+  padding: clamp(24px,3vw,40px) clamp(20px,2.5vw,32px);
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; overflow: hidden; transition: background .2s;
+}
+.svc:hover { background: #070810; }
+.svc::before {
+  content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 1px;
+  background: linear-gradient(90deg,transparent,var(--violet-lt),transparent);
+  opacity: 0; transition: opacity .35s;
+}
+.svc:hover::before { opacity: 1; }
+.svc-tag {
+  align-self: flex-start; padding: 3px 10px; border-radius: 100px;
+  background: rgba(91,95,232,.12);
+  font-family: var(--mo); font-size: 9.5px;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--violet-lt);
+}
+.svc-price { font-family: var(--mo); font-size: 12.5px; color: var(--cyan); letter-spacing: .3px; }
+.svc-title {
+  font-family: var(--jk); font-size: 15px; font-weight: 700;
+  letter-spacing: -.02em; color: var(--snow); line-height: 1.3;
+}
+.svc-desc { font-size: 12.5px; font-weight: 300; color: var(--mist); line-height: 1.65; flex: 1; }
+.svc-link {
+  font-size: 12px; color: var(--violet-lt); font-weight: 500;
+  display: inline-flex; align-items: center; gap: 5px; transition: gap .18s;
+}
+.svc-link:hover { gap: 9px; }
+@media (max-width: 960px) { .svc-list { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 520px)  { .svc-list { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════
+   PORTFOLIO CAROUSEL
+═══════════════════════════════════════════════════════ */
+.pf-header {
+  display: flex; align-items: flex-end;
+  justify-content: space-between; gap: 24px;
+  margin-bottom: clamp(32px,4vw,52px);
+}
+.pf-nav { display: flex; gap: 10px; flex-shrink: 0; }
+.pf-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--ink-2);
+  color: var(--mist);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: border-color .2s, color .2s, background .2s;
+  flex-shrink: 0;
+}
+.pf-btn:hover { border-color: var(--violet-lt); color: var(--snow); background: var(--ink-3); }
+.pf-btn svg { width: 16px; height: 16px; }
+
+/* Track — full width with peek effect */
+.pf-track-wrap {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 0 16px;
+}
+/* Fade overlays left & right */
+.pf-track-wrap::before,
+.pf-track-wrap::after {
+  content: ''; position: absolute; top: 0; bottom: 0;
+  width: clamp(48px, 14vw, 200px);
+  pointer-events: none; z-index: 2;
+}
+.pf-track-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, #0E0D12 20%, transparent 100%);
+}
+.pf-track-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, #0E0D12 20%, transparent 100%);
+}
+
+.pf-track {
+  display: flex; gap: 28px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0;
+}
+.pf-track::-webkit-scrollbar { display: none; }
+.pf-spacer { flex-shrink: 0; }
+
+/* Card */
+.pf-card {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  width: clamp(300px, 56vw, 640px);
+  border: 1px solid var(--rule); border-radius: 14px;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transition: border-color .25s, transform .25s var(--expo), opacity .35s;
+  cursor: pointer;
+  opacity: .5;
+}
+.pf-card.active { opacity: 1; border-color: var(--rule-2); }
+.pf-card:hover  { border-color: var(--rule-2); }
+
+/* Visual placeholder */
+.pf-thumb {
+  aspect-ratio: 16 / 9;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.pf-thumb-inner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.pf-thumb-label {
+  font-family: var(--mo); font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  position: relative; z-index: 1;
+}
+
+/* Card body */
+.pf-body {
+  padding: 24px 26px 28px;
+  display: flex; flex-direction: column; gap: 10px; flex: 1;
+}
+.pf-cats { display: flex; gap: 6px; flex-wrap: wrap; }
+.pf-cat {
+  font-family: var(--mo); font-size: 9px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--mist); padding: 2px 8px;
+  border: 1px solid var(--rule-2); border-radius: 4px;
+}
+.pf-name {
+  font-family: var(--jk); font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 800; letter-spacing: -.03em; color: var(--snow);
+  line-height: 1.1;
+}
+.pf-sub { font-size: 13px; color: var(--violet-lt); font-weight: 500; }
+.pf-desc {
+  font-size: 13px; font-weight: 300;
+  color: rgba(150,152,184,.9); line-height: 1.7;
+}
+.pf-dels {
+  display: flex; flex-direction: column; gap: 0;
+  margin-top: 6px; border-top: 1px solid var(--rule-2);
+}
+.pf-del {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12.5px; color: rgba(150,152,184,.85); font-weight: 300;
+  padding: 7px 0; border-bottom: 1px solid var(--rule-2);
+}
+.pf-del:last-child { border-bottom: none; }
+.pf-del-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  flex-shrink: 0; opacity: .9;
+}
+
+/* Progress dots */
+.pf-dots {
+  display: flex; gap: 6px; align-items: center;
+  margin-top: clamp(20px,3vw,32px);
+}
+.pf-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--rule-2); cursor: pointer;
+  transition: background .25s, transform .25s;
+}
+.pf-dot.active {
+  background: var(--violet-lt); transform: scale(1.3);
+}
+@media (max-width: 700px) {
+  .case-wrap { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CTA FINAL — VIOLET DRENCH
+═══════════════════════════════════════════════════════ */
+.cta-sect {
+  background: var(--violet);
+  border-top: none;
+  padding: clamp(72px,10vw,140px) 0;
+}
+.cta-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+.cta-eyebrow {
+  font-family: var(--mo); font-size: 14px;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
+.cta-title {
+  font-family: var(--jk);
+  font-size: clamp(32px,5.5vw,68px);
+  font-weight: 800; line-height: 1.03; letter-spacing: -.04em;
+  color: #fff; max-width: 700px;
+}
+.cta-sub {
+  font-size: 14px; font-weight: 300; color: rgba(255,255,255,.7);
+  max-width: 440px; line-height: 1.75;
+}
+.cta-form {
+  display: flex; gap: 10px; width: 100%; max-width: 480px; flex-wrap: wrap;
+}
+.cta-input {
+  flex: 1; min-width: 200px; padding: 13px 16px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.12);
+  color: #fff; font-family: var(--it); font-size: 13.5px;
+  outline: none; transition: border-color .2s, background .2s;
+}
+.cta-input::placeholder { color: rgba(255,255,255,.45); }
+.cta-input:focus { border-color: rgba(255,255,255,.6); background: rgba(255,255,255,.18); }
+.cta-btn {
+  padding: 13px 22px; border-radius: 7px;
+  background: #fff; color: var(--violet);
+  font-size: 13px; font-weight: 700; white-space: nowrap;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  cursor: pointer;
+}
+.cta-btn:hover {
+  background: #f0f0ff; transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.cta-note {
+  font-size: 11.5px; color: rgba(255,255,255,.45);
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 44px 0;
+}
+.foot-inner {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 24px;
+}
+.foot-brand { display: flex; flex-direction: column; gap: 5px; }
+.foot-logo {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--jk); font-weight: 700; font-size: 17px; color: var(--mist);
+}
+.foot-tag { font-size: 13px; color: var(--dim); letter-spacing: .2px; }
+.foot-links { display: flex; gap: 22px; }
+.foot-links a { font-size: 11.5px; color: var(--dim); transition: color .2s; }
+.foot-links a:hover { color: var(--mist); }
+.foot-copy { text-align: right; font-size: 11px; color: var(--dim); line-height: 1.6; }
+@media (max-width: 700px) {
+  .foot-inner { grid-template-columns: 1fr; text-align: center; }
+  .foot-links { justify-content: center; }
+  .foot-copy { text-align: center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Navegación">
+  <div class="nav-wrap">
+    <a href="/" class="nav-logo" aria-label="Velora Labs inicio">
+      <img src="logo.svg" alt="Velora Labs" height="44" style="display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#portafolio">Portafolio</a></li>
+      <li><a href="#metodo">Método</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#diagnostico">Contacto</a></li>
+    </ul>
+    <a href="#diagnostico" class="nav-btn">Iniciar diagnóstico</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="h1">
+  <div class="hero-canvas"   aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-grid"    aria-hidden="true"></div>
+  <div class="hero-fade"    aria-hidden="true"></div>
+  <div class="hero-diagram" id="diag" aria-hidden="true"></div>
+
+  <div class="bound hero-eyebrow">
+    <p class="fi">Branding · Growth Systems · Automatización</p>
+  </div>
+
+  <div class="hero-stage">
+    <!-- Left: sub text — extreme left -->
+    <div class="hero-left">
+      <p class="hero-sub fu d4">
+        Velora Labs conecta marca, captación y automatización
+        en sistemas de crecimiento para negocios listos para
+        dejar de improvisar.
+      </p>
+    </div>
+
+    <!-- Right: headline centered, CTAs bottom — extreme right -->
+    <div class="hero-right">
+      <div class="hero-h1-wrap">
+        <h1 class="hero-h1" id="h1">
+          <span class="fu d1">El crecimiento</span>
+          <span class="thin fu d2">no falla por ideas.</span>
+          <span class="accent fu d3">Falla por sistema.</span>
+        </h1>
+      </div>
+      <div class="hero-actions fu d5">
+        <a href="#diagnostico" class="btn-solid">Iniciar diagnóstico →</a>
+        <a href="#rutas" class="btn-text">Ver cómo construimos <span>↗</span></a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="hero-rule"></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="belt" aria-hidden="true">
+  <div class="belt-track" id="belt"></div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problema" class="sect" aria-labelledby="prob-title">
+  <div class="bound">
+    <div class="sect-hdr rv">
+      <div>
+        <h2 class="sect-title" id="prob-title">No necesitas más marketing aleatorio. Necesitas un sistema.</h2>
+      </div>
+    </div>
+
+    <div class="prob-thead" aria-hidden="true">
+      <span class="prob-col bad">Improvisado</span>
+      <span class="prob-col good">Sistematizado</span>
+    </div>
+
+    <div role="list">
+      <div class="prob-row rv rv1" role="listitem">
+        <div class="prob-cell"><span class="prob-n">01</span><span class="prob-bad-txt">Posts sin dirección</span></div>
+        <div class="prob-cell right"><span class="prob-arrow">→</span><span class="prob-good-txt">Sistema de contenido</span></div>
+      </div>
+      <div class="prob-row rv rv2" role="listitem">
+        <div class="prob-cell"><span class="prob-n">02</span><span class="prob-bad-txt">Leads perdidos en WhatsApp</span></div>
+        <div class="prob-cell right"><span class="prob-arrow">→</span><span class="prob-good-txt">Seguimiento automático</span></div>
+      </div>
+      <div class="prob-row rv rv3" role="listitem">
+        <div class="prob-cell"><span class="prob-n">03</span><span class="prob-bad-txt">Sitio sin conversión</span></div>
+        <div class="prob-cell right"><span class="prob-arrow">→</span><span class="prob-good-txt">Landing construida para captar</span></div>
+      </div>
+      <div class="prob-row rv rv4" role="listitem">
+        <div class="prob-cell"><span class="prob-n">04</span><span class="prob-bad-txt">Anuncios sin medición</span></div>
+        <div class="prob-cell right"><span class="prob-arrow">→</span><span class="prob-good-txt">Campañas con reporting</span></div>
+      </div>
+      <div class="prob-row rv" role="listitem">
+        <div class="prob-cell"><span class="prob-n">05</span><span class="prob-bad-txt">Marca inconsistente</span></div>
+        <div class="prob-cell right"><span class="prob-arrow">→</span><span class="prob-good-txt">Sistema visual claro</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIATORS -->
+<section class="sect sect-dark" aria-labelledby="diff-title">
+  <div class="bound">
+    <div class="sect-hdr rv">
+      <h2 class="sect-title" id="diff-title">Construido diferente.</h2>
+    </div>
+
+    <!-- Featured: MX × DE -->
+    <div class="claim-featured rv">
+      <span class="claim-featured-wm" aria-hidden="true">MX × DE</span>
+      <h3 class="claim-title">El único equipo en LATAM con operación directa en Europa.</h3>
+
+      <div class="claim-markets">
+        <!-- México -->
+        <div class="claim-market cm-mx" style="padding-right: clamp(10px, 1.5vw, 20px);">
+          <span class="cm-flag">México · LATAM</span>
+          <span class="cm-region">Estrategia y ejecución</span>
+          <div class="cm-tags">
+            <span class="cm-tag">Branding y sistemas de crecimiento</span>
+            <span class="cm-tag">Tecnología y automatización</span>
+            <span class="cm-tag">Gestión de producto y ventas</span>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="claim-divider" aria-hidden="true">
+          <span class="claim-x">×</span>
+        </div>
+
+        <!-- Alemania -->
+        <div class="claim-market cm-de" style="padding-left: clamp(16px, 2.5vw, 32px);">
+          <span class="cm-flag">Alemania · Europa</span>
+          <span class="cm-region">Marketing y expansión</span>
+          <div class="cm-tags">
+            <span class="cm-tag">Estrategia de marketing internacional</span>
+            <span class="cm-tag">Acceso al mercado europeo</span>
+            <span class="cm-tag">Perspectiva cross-cultural</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 claims -->
+    <div class="claims-grid rv">
+      <div class="claim-cell cs-v">
+        <span class="cc-num">01</span>
+        <h3 class="cc-title">Sistemas, no campañas</h3>
+        <p class="cc-desc">Construimos lo que sigue funcionando cuando no estás mirando.</p>
+      </div>
+      <div class="claim-cell cs-c">
+        <span class="cc-num">03</span>
+        <h3 class="cc-title">Accesible por diseño</h3>
+        <p class="cc-desc">Automatización que hace posible la calidad premium para negocios de cualquier tamaño.</p>
+      </div>
+      <div class="claim-cell cs-g">
+        <span class="cc-num">04</span>
+        <h3 class="cc-title">Disciplina de ingeniería</h3>
+        <p class="cc-desc">Rigurosos en sistemas. Intencionales en craft. Sin ejecución, la estrategia no vale nada.</p>
+      </div>
+      <div class="claim-cell cs-a">
+        <span class="cc-num">05</span>
+        <h3 class="cc-title">Shipped beats perfect</h3>
+        <p class="cc-desc">Dos entradas claras. Velora Start para comenzar. Velora Build para escalar. Sin rodeos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section id="metodo" class="sect" aria-labelledby="meth-title">
+  <div class="bound">
+    <div class="sect-hdr rv">
+      <h2 class="sect-title" id="meth-title">Cómo construimos.</h2>
+    </div>
+
+    <div role="list">
+      <div class="method-item rv" role="listitem">
+        <span class="method-ghost" aria-hidden="true">01</span>
+        <div class="method-lft">
+          <span class="method-step-num">01</span>
+          <span class="method-step-sub">Signal Audit</span>
+        </div>
+        <div class="method-rgt">
+          <h3 class="method-name">Diagnóstico</h3>
+          <p class="method-desc">Radiografía de tu marca, presencia digital, canales, datos y gaps de automatización. Sin diagnóstico claro, no hay estrategia real.</p>
+        </div>
+      </div>
+      <div class="method-item rv rv1" role="listitem">
+        <span class="method-ghost" aria-hidden="true">02</span>
+        <div class="method-lft">
+          <span class="method-step-num">02</span>
+          <span class="method-step-sub">Architecture Map</span>
+        </div>
+        <div class="method-rgt">
+          <h3 class="method-name">Mapa del sistema</h3>
+          <p class="method-desc">Diseño del sistema completo antes de construir nada: oferta, contenido, captación, CRM y reporting, todos conectados.</p>
+        </div>
+      </div>
+      <div class="method-item rv rv2" role="listitem">
+        <span class="method-ghost" aria-hidden="true">03</span>
+        <div class="method-lft">
+          <span class="method-step-num">03</span>
+          <span class="method-step-sub">Build Sprint</span>
+        </div>
+        <div class="method-rgt">
+          <h3 class="method-name">Construcción</h3>
+          <p class="method-desc">Implementación de assets, automatizaciones y dashboards. Ejecución con precisión de ingeniería.</p>
+        </div>
+      </div>
+      <div class="method-item rv rv3" role="listitem">
+        <span class="method-ghost" aria-hidden="true">04</span>
+        <div class="method-lft">
+          <span class="method-step-num">04</span>
+          <span class="method-step-sub">Distribution Engine</span>
+        </div>
+        <div class="method-rgt">
+          <h3 class="method-name">Motor de distribución</h3>
+          <p class="method-desc">Contenido, campañas y workflows activos. El sistema empieza a generar tracción mientras el negocio sigue operando.</p>
+        </div>
+      </div>
+      <div class="method-item rv rv4" role="listitem">
+        <span class="method-ghost" aria-hidden="true">05</span>
+        <div class="method-lft">
+          <span class="method-step-num">05</span>
+          <span class="method-step-sub">Optimization Loop</span>
+        </div>
+        <div class="method-rgt">
+          <h3 class="method-name">Ciclo de optimización</h3>
+          <p class="method-desc">Medición, mejora continua y backlog de crecimiento. El sistema se compone con el tiempo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROUTES -->
+<section id="rutas" class="sect sect-dark" aria-labelledby="routes-title">
+  <div class="bound">
+    <div class="sect-hdr rv">
+      <h2 class="sect-title" id="routes-title">Desde donde empiezas.</h2>
+    </div>
+    <div class="routes-wrap rv">
+      <div class="route">
+        <div class="route-shimmer rs-green" aria-hidden="true"></div>
+        <div class="route-meta">
+          <span class="route-badge rb-g">Velora Start</span>
+          <span class="route-idx">01</span>
+        </div>
+        <h3 class="route-title">Para negocios con potencial sin explotar.</h3>
+        <p class="route-desc">Tu negocio ya tiene valor. Le damos presencia, estructura y automatización básica para que mas personas lo encuentren, y no pierdas clientes por falta de seguimiento.</p>
+        <a href="#diagnostico" class="route-link rl-g">Iniciar diagnóstico →</a>
+      </div>
+      <div class="route">
+        <div class="route-shimmer rs-violet" aria-hidden="true"></div>
+        <div class="route-meta">
+          <span class="route-badge rb-v">Velora Build</span>
+          <span class="route-idx">02</span>
+        </div>
+        <h3 class="route-title">Para negocios listos para sistematizar.</h3>
+        <p class="route-desc">Marca, captación y automatización conectados como un sistema que sigue funcionando mientras tu te enfocas en el negocio. Alcance a medida, resultados medibles.</p>
+        <a href="#diagnostico" class="route-link rl-v">Solicitar sesión estratégica →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servicios" class="sect" aria-labelledby="svc-title">
+  <div class="bound">
+    <div class="sect-hdr rv">
+      <h2 class="sect-title" id="svc-title">Cuatro productos. Un sistema.</h2>
+    </div>
+    <div class="svc-list rv">
+      <div class="svc">
+        <span class="svc-tag">Velora Audit</span>
+        <span class="svc-price">MX$3,500</span>
+        <h3 class="svc-title">Saber que mover primero.</h3>
+        <p class="svc-desc">Diagnóstico completo de marca, presencia digital y automatización. Acreditable a cualquier paquete.</p>
+        <a href="#diagnostico" class="svc-link">Iniciar diagnóstico →</a>
+      </div>
+      <div class="svc">
+        <span class="svc-tag">Velora Start</span>
+        <span class="svc-price">desde MX$28,000</span>
+        <h3 class="svc-title">Presencia profesional y seguimiento.</h3>
+        <p class="svc-desc">Identidad visual, sitio web, Google Business, redes y automatización básica. En 10 a 15 días.</p>
+        <a href="packages.html" class="svc-link">Ver detalles →</a>
+      </div>
+      <div class="svc">
+        <span class="svc-tag">Velora Build</span>
+        <span class="svc-price">desde MX$65,000</span>
+        <h3 class="svc-title">Sistema completo de captación.</h3>
+        <p class="svc-desc">Brand system, sitio robusto, Meta Ads, CRM, automatizaciones avanzadas y analytics conectados.</p>
+        <a href="packages.html" class="svc-link">Ver detalles →</a>
+      </div>
+      <div class="svc">
+        <span class="svc-tag">Velora Grow</span>
+        <span class="svc-price">desde MX$12,000/mes</span>
+        <h3 class="svc-title">Operación mensual continua.</h3>
+        <p class="svc-desc">Contenido, campañas Meta, reportes y optimizaciones. El sistema funcionando mes a mes.</p>
+        <a href="packages.html" class="svc-link">Ver detalles →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portafolio" class="sect sect-dark" aria-labelledby="pf-title">
+  <div class="bound">
+    <div class="pf-header rv">
+      <h2 class="sect-title" id="pf-title">Portafolio.</h2>
+      <div class="pf-nav" aria-label="Navegación del carrusel">
+        <button class="pf-btn" id="pf-prev" aria-label="Anterior">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 3L5 8l5 5"/>
+          </svg>
+        </button>
+        <button class="pf-btn" id="pf-next" aria-label="Siguiente">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3l5 5-5 5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- end .bound -->
+  <div class="pf-track-wrap rv">
+    <div class="pf-track" id="pf-track">
+      <div class="pf-spacer" id="pf-spacer-start"></div>
+
+      <!-- CriptasMX -->
+      <article class="pf-card">
+        <div class="pf-thumb" style="background:linear-gradient(135deg,#0f0d18 0%,#1a1535 100%);">
+          <div class="pf-thumb-inner" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 48 48" fill="none" style="opacity:.12"><rect x="4" y="4" width="40" height="40" rx="8" stroke="#818CF8" stroke-width="1"/><path d="M24 12v24M12 24h24" stroke="#818CF8" stroke-width="1" stroke-linecap="round"/></svg></div>
+          <span class="pf-thumb-label" style="color:rgba(129,140,248,.45);">imagen próximamente</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-cats"><span class="pf-cat">Naming</span><span class="pf-cat">Identidad</span><span class="pf-cat">Web</span></div>
+          <h3 class="pf-name">CriptasMX</h3>
+          <p class="pf-sub">De cero a marca completa.</p>
+          <p class="pf-desc">Sin nombre definido, sin presencia digital. Construimos identidad de marca, brand guidelines y sitio web desde cero.</p>
+          <div class="pf-dels">
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Naming y posicionamiento</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Identidad visual completa</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Brand guidelines</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Sitio web funcional</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Eileen "Dino" Racer -->
+      <article class="pf-card">
+        <div class="pf-thumb" style="background:linear-gradient(135deg,#0d1210 0%,#0f2018 100%);">
+          <div class="pf-thumb-inner" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 48 48" fill="none" style="opacity:.12"><circle cx="24" cy="24" r="18" stroke="#10B981" stroke-width="1"/><path d="M24 8v32M8 24h32" stroke="#10B981" stroke-width="1" stroke-linecap="round"/></svg></div>
+          <span class="pf-thumb-label" style="color:rgba(16,185,129,.45);">imagen próximamente</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-cats"><span class="pf-cat">Marca Personal</span><span class="pf-cat">Deportes</span></div>
+          <h3 class="pf-name">Eileen "Dino" Racer</h3>
+          <p class="pf-sub">Identidad para piloto de carreras.</p>
+          <p class="pf-desc">Marca personal profesional para piloto competitivo. Identidad visual, presencia digital y kit para patrocinadores.</p>
+          <div class="pf-dels">
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--green)"></span>Identidad visual</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--green)"></span>Kit de medios y patrocinadores</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--green)"></span>Presencia en redes</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Karting Club México -->
+      <article class="pf-card">
+        <div class="pf-thumb" style="background:linear-gradient(135deg,#0f0d0a 0%,#1f1a08 100%);">
+          <div class="pf-thumb-inner" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 48 48" fill="none" style="opacity:.12"><rect x="8" y="16" width="32" height="16" rx="4" stroke="#F59E0B" stroke-width="1"/><path d="M16 16v-4M32 16v-4M16 32v4M32 32v4" stroke="#F59E0B" stroke-width="1" stroke-linecap="round"/></svg></div>
+          <span class="pf-thumb-label" style="color:rgba(245,158,11,.45);">imagen próximamente</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-cats"><span class="pf-cat">Branding</span><span class="pf-cat">Deportes</span></div>
+          <h3 class="pf-name">Karting Club México</h3>
+          <p class="pf-sub">Sistema de identidad para club.</p>
+          <p class="pf-desc">Marca, aplicaciones y presencia digital para club de karting. Diseño que comunica velocidad y profesionalismo.</p>
+          <div class="pf-dels">
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--amber)"></span>Identidad y logo system</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--amber)"></span>Aplicaciones de marca</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--amber)"></span>Presencia digital</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Edel Racing -->
+      <article class="pf-card">
+        <div class="pf-thumb" style="background:linear-gradient(135deg,#0a0d18 0%,#0d1530 100%);">
+          <div class="pf-thumb-inner" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 48 48" fill="none" style="opacity:.12"><rect x="6" y="6" width="16" height="16" rx="3" stroke="#22D3EE" stroke-width="1"/><rect x="26" y="6" width="16" height="16" rx="3" stroke="#22D3EE" stroke-width="1"/><rect x="6" y="26" width="16" height="16" rx="3" stroke="#22D3EE" stroke-width="1"/><rect x="26" y="26" width="16" height="16" rx="3" stroke="#22D3EE" stroke-width="1"/></svg></div>
+          <span class="pf-thumb-label" style="color:rgba(34,211,238,.45);">imagen próximamente</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-cats"><span class="pf-cat">Sistema Digital</span><span class="pf-cat">Branding</span></div>
+          <h3 class="pf-name">Edel Racing</h3>
+          <p class="pf-sub">Sistema de gestión para karting.</p>
+          <p class="pf-desc">Dashboard completo para club de karting. Gestión de equipos, constructores, resultados y temporadas.</p>
+          <div class="pf-dels">
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--cyan)"></span>Dashboard de gestión</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--cyan)"></span>Equipos y constructores</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--cyan)"></span>Branding del sistema</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Estampatrend -->
+      <article class="pf-card">
+        <div class="pf-thumb" style="background:linear-gradient(135deg,#120d18 0%,#200d30 100%);">
+          <div class="pf-thumb-inner" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 48 48" fill="none" style="opacity:.12"><path d="M10 38V18l14-8 14 8v20" stroke="#818CF8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="18" y="26" width="12" height="12" rx="1" stroke="#818CF8" stroke-width="1"/></svg></div>
+          <span class="pf-thumb-label" style="color:rgba(129,140,248,.45);">imagen próximamente</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-cats"><span class="pf-cat">Branding</span><span class="pf-cat">eCommerce</span></div>
+          <h3 class="pf-name">Estampatrend</h3>
+          <p class="pf-sub">Marca y tienda digital.</p>
+          <p class="pf-desc">Identidad de marca y ecosistema digital para tienda de estampados y moda. De la identidad al punto de venta.</p>
+          <div class="pf-dels">
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Identidad visual</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Tienda en línea</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--violet-lt)"></span>Sistema de contenido</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- La Lente de Pipus -->
+      <article class="pf-card">
+        <div class="pf-thumb" style="background:linear-gradient(135deg,#0d1015 0%,#101820 100%);">
+          <div class="pf-thumb-inner" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 48 48" fill="none" style="opacity:.12"><circle cx="24" cy="24" r="12" stroke="#22D3EE" stroke-width="1"/><circle cx="24" cy="24" r="5" stroke="#22D3EE" stroke-width="1"/><rect x="6" y="14" width="36" height="20" rx="4" stroke="#22D3EE" stroke-width="1"/></svg></div>
+          <span class="pf-thumb-label" style="color:rgba(34,211,238,.45);">imagen próximamente</span>
+        </div>
+        <div class="pf-body">
+          <div class="pf-cats"><span class="pf-cat">Identidad</span><span class="pf-cat">Fotografía</span></div>
+          <h3 class="pf-name">La Lente de Pipus</h3>
+          <p class="pf-sub">Marca personal para fotógrafo.</p>
+          <p class="pf-desc">Identidad visual, presencia digital y portafolio en línea para fotógrafo profesional.</p>
+          <div class="pf-dels">
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--cyan)"></span>Naming e identidad</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--cyan)"></span>Sitio portafolio</div>
+            <div class="pf-del"><span class="pf-del-dot" style="background:var(--cyan)"></span>Presencia en redes</div>
+          </div>
+        </div>
+      </article>
+
+      <div class="pf-spacer" id="pf-spacer-end"></div>
+    </div>
+  </div><!-- end .pf-track-wrap -->
+  <div class="bound">
+    <div class="pf-dots" id="pf-dots"></div>
+  </div>
+</section>
+
+<!-- CTA FINAL — VIOLET DRENCH -->
+<section id="diagnostico" class="sect cta-sect">
+  <div class="bound">
+    <div class="cta-inner rv">
+      <p class="cta-eyebrow">Your growth. Engineered.</p>
+      <h2 class="cta-title">Deja de improvisar tu crecimiento.</h2>
+      <p class="cta-sub">Inicia con un diagnostico de MX$3,500. Salimos con un plan claro de que mover primero.</p>
+      <form class="cta-form" action="#" method="post" aria-label="Formulario de diagnostico">
+        <label for="cta-email" class="sr">Correo electronico</label>
+        <input type="email" id="cta-email" name="email" class="cta-input"
+               placeholder="tu@empresa.com" required autocomplete="email" aria-required="true">
+        <button type="submit" class="cta-btn">Iniciar diagnostico — MX$3,500</button>
+      </form>
+      <p class="cta-note">Sin spam · Respuesta en menos de 24h · Acreditable a cualquier paquete</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="bound">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <div class="foot-logo">
+          <img src="logo.svg" alt="Velora Labs" height="38" style="display:block;opacity:.65;">
+        </div>
+        <span class="foot-tag">Branding · Growth Systems · Automatización</span>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#portafolio">Portafolio</a>
+        <a href="#metodo">Método</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#diagnostico">Contacto</a>
+      </nav>
+      <p class="foot-copy">© 2026 Velora Labs<br>Built for businesses ready<br>to stop improvising.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* Reveal */
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } }), {threshold:.1, rootMargin:'0px 0px -28px 0px'});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+/* Nav */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.style.background = scrollY > 36 ? 'rgba(6,7,13,.97)' : 'rgba(6,7,13,.8)';
+}, {passive:true});
+
+/* Marquee */
+const PHRASES = ['sistemas construidos','growth ejecutado','campañas con sistema','marca con dirección','construido para escalar','automatización real','built to compound','execution at scale','shipped beats perfect','not campaigns, systems'];
+const belt = document.getElementById('belt');
+[...PHRASES,...PHRASES].forEach((p, i) => {
+  const s = document.createElement('span');
+  s.className = 'belt-item' + (i % 2 === 1 ? ' v' : '');
+  s.innerHTML = `${p}<span class="belt-sep">·</span>`;
+  belt.appendChild(s);
+});
+
+/* Portfolio carousel — centered peek + autoplay + loop */
+(function(){
+  const track   = document.getElementById('pf-track');
+  const prevBtn = document.getElementById('pf-prev');
+  const nextBtn = document.getElementById('pf-next');
+  const dotsEl  = document.getElementById('pf-dots');
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const cards = Array.from(track.querySelectorAll('.pf-card'));
+  const total = cards.length;
+  let current = 0;
+  let timer   = null;
+
+  /* Build dots */
+  const dots = cards.map((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'pf-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Proyecto ${i + 1}`);
+    d.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dotsEl.appendChild(d);
+    return d;
+  });
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    const card = cards[current];
+    /* Center the card in the track viewport */
+    const scrollLeft = card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2;
+    track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    /* Active states */
+    cards.forEach((c, i) => c.classList.toggle('active', i === current));
+    dots.forEach((d, i)  => d.classList.toggle('active', i === current));
+  }
+
+  nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+  prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+
+  /* Autoplay */
+  function startTimer() { timer = setInterval(() => goTo(current + 1), 4500); }
+  function resetTimer()  { clearInterval(timer); startTimer(); }
+
+  /* Pause on hover */
+  const wrap = track.closest('.pf-track-wrap');
+  if (wrap) {
+    wrap.addEventListener('mouseenter', () => clearInterval(timer));
+    wrap.addEventListener('mouseleave', startTimer);
+  }
+
+  /* Spacers — make first and last cards centerable */
+  const spacerStart = document.getElementById('pf-spacer-start');
+  const spacerEnd   = document.getElementById('pf-spacer-end');
+  function setSpacers() {
+    if (!cards[0] || !spacerStart || !spacerEnd) return;
+    const gap = Math.max(0, Math.floor((track.clientWidth - cards[0].offsetWidth) / 2));
+    spacerStart.style.width = gap + 'px';
+    spacerEnd.style.width   = gap + 'px';
+  }
+
+  /* Init */
+  setSpacers();
+  goTo(0);
+  startTimer();
+
+  /* Recalculate on resize */
+  window.addEventListener('resize', () => { setSpacers(); goTo(current); }, { passive: true });
+})();
+
+/* System diagram */
+(function(){
+  const c = document.getElementById('diag'); if(!c) return;
+  const W=400,H=420;
+  const NP=[{x:200,y:60},{x:340,y:140},{x:320,y:280},{x:200,y:360},{x:60,y:280},{x:80,y:140}];
+  const NL=['MARCA','WEB','LEADS','FOLLOW-UP','AUTO','REPORT'];
+  const NC=['#818CF8','#22D3EE','#818CF8','#22D3EE','#818CF8','#22D3EE'];
+  const ED=[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,3],[1,4]];
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.setAttribute('width',W); svg.setAttribute('height',H);
+
+  const lines = ED.map(([a,b])=>{
+    const l=document.createElementNS(ns,'line');
+    l.setAttribute('x1',NP[a].x); l.setAttribute('y1',NP[a].y);
+    l.setAttribute('x2',NP[a].x); l.setAttribute('y2',NP[a].y);
+    l.setAttribute('stroke','rgba(91,95,232,0.25)'); l.setAttribute('stroke-width','1');
+    l.setAttribute('stroke-linecap','round'); svg.appendChild(l);
+    return {el:l,ax:NP[a].x,ay:NP[a].y,bx:NP[b].x,by:NP[b].y};
+  });
+
+  const nodes = NP.map((p,i)=>{
+    const g=document.createElementNS(ns,'g');
+    g.style.cssText='opacity:0;transition:opacity .4s ease';
+    [[22,.12,12],[15,.92,1]].forEach(([r,fa,sw])=>{
+      const ci=document.createElementNS(ns,'circle');
+      ci.setAttribute('cx',p.x); ci.setAttribute('cy',p.y); ci.setAttribute('r',r);
+      ci.setAttribute('fill',sw===1?`rgba(13,14,26,${fa})`:'none');
+      ci.setAttribute('stroke',NC[i]); ci.setAttribute('stroke-opacity',sw===12?'.12':'.35');
+      ci.setAttribute('stroke-width',sw); g.appendChild(ci);
+    });
+    const dot=document.createElementNS(ns,'circle');
+    dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y); dot.setAttribute('r','4.5');
+    dot.setAttribute('fill',NC[i]); g.appendChild(dot);
+    const txt=document.createElementNS(ns,'text');
+    txt.setAttribute('x',p.x); txt.setAttribute('y',p.y+34);
+    txt.setAttribute('text-anchor','middle'); txt.setAttribute('font-size','9');
+    txt.setAttribute('font-family','JetBrains Mono,monospace');
+    txt.setAttribute('font-weight','500'); txt.setAttribute('letter-spacing','0.5');
+    txt.setAttribute('fill',NC[i]); txt.setAttribute('opacity','.8');
+    txt.textContent=NL[i]; g.appendChild(txt);
+    svg.appendChild(g); return g;
+  });
+
+  c.appendChild(svg);
+  let st=null; const DUR=2600;
+  function tick(ts){
+    if(!st)st=ts; const t=Math.min((ts-st)/DUR,1);
+    lines.forEach((ln,i)=>{
+      const ls=(i/lines.length)*.4, le=ls+.6;
+      const lt=Math.max(0,Math.min(1,(t-ls)/(le-ls)));
+      ln.el.setAttribute('x2',ln.ax+(ln.bx-ln.ax)*lt);
+      ln.el.setAttribute('y2',ln.ay+(ln.by-ln.ay)*lt);
+    });
+    const vis=Math.floor(t*NP.length*1.2);
+    nodes.forEach((g,i)=>{ g.style.opacity=i<Math.min(vis,NP.length)?'1':'0'; });
+    if(t<1)requestAnimationFrame(tick);
+  }
+  setTimeout(()=>requestAnimationFrame(tick),800);
+})();
+</script>
+</body>
+</html>
