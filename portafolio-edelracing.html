@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edel Racing — Portafolio · Velora Labs</title>
-<meta name="description" content="Academia de karting + automatización de redes sociales para Edel Racing — de captación manual a sistema automático 24/7.">
+<title>Edel Racing Performance Lab · Portafolio · Velora Labs</title>
+<meta name="description" content="Sistema interno para Edel Racing: captura de tandas, telemetría RaceBox, análisis IA y decisiones de entrenamiento para la siguiente salida a pista.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -163,6 +163,11 @@ body::after {
   background: repeating-linear-gradient(
     0deg, transparent, transparent 39px, rgba(59,130,246,.03) 40px
   );
+}
+.hero-placeholder img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  position: relative; z-index: 1;
 }
 .ph-label {
   font-family: var(--mo); font-size: 11px; letter-spacing: 2.5px;
@@ -453,15 +458,15 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
       Portafolio
     </a>
     <div class="proj-chips fu d1">
-      <span class="chip">Academia · Karting</span>
-      <span class="chip">Automatización</span>
-      <span class="chip">CRM</span>
-      <span class="chip">n8n</span>
+      <span class="chip">Producto interno</span>
+      <span class="chip">Motorsport data</span>
+      <span class="chip">IA</span>
+      <span class="chip">RaceBox</span>
     </div>
-    <h1 class="fu d2">Edel Racing</h1>
-    <p class="proj-hero-sub fu d3">De academia de karting a sistema de captación automático.</p>
+    <h1 class="fu d2">Edel Racing Performance Lab</h1>
+    <p class="proj-hero-sub fu d3">Sistema en desarrollo para convertir cada tanda en una decisión clara para el siguiente stint.</p>
     <div class="hero-placeholder">
-      <span class="ph-label">Imagen del proyecto</span>
+      <img src="assets/portfolio/thumb-edelracing.svg" alt="Mock visual del dashboard Edel Racing Performance Lab">
     </div>
   </div>
 </section>
@@ -476,7 +481,7 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
       </div>
       <div class="meta-item rv rv1">
         <span class="meta-key">Categoría</span>
-        <span class="meta-val">Academia · Deportes</span>
+        <span class="meta-val">Motorsport · Analytics</span>
       </div>
       <div class="meta-item rv rv2">
         <span class="meta-key">Año</span>
@@ -484,7 +489,7 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
       </div>
       <div class="meta-item rv rv3">
         <span class="meta-key">Entregables</span>
-        <span class="meta-val">Web · CRM · Automatización</span>
+        <span class="meta-val">Dashboard · IA · Telemetría</span>
       </div>
     </div>
   </div>
@@ -496,13 +501,13 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
     <div class="context-grid rv">
       <div>
         <span class="section-label">El punto de partida</span>
-        <h2 class="section-h2">Una academia real sin sistema para crecer.</h2>
-        <p class="section-body">Edel Racing es un club de karting con actividad real en pista: pilotos, instructores y fechas de carrera. Pero la academia, la parte del negocio que convierte aficionados en alumnos, operaba sin landing, sin formularios y sin ningún proceso automático para captar interesados.</p>
-        <p class="section-body" style="margin-top:16px;">El reto era doble: construir una presencia digital que generara inscripciones de forma profesional, y liberar al equipo de la gestión manual de redes sociales con un flujo de publicación automático en Instagram y Facebook.</p>
+        <h2 class="section-h2">Muchos datos de pista. Pocas decisiones accionables.</h2>
+        <p class="section-body">Edel Racing Performance Lab nace para ordenar el entrenamiento real de karting: pilotos, sesiones, tandas, tiempos por vuelta, setup del chasis, clima, telemetría RaceBox y análisis generado por IA.</p>
+        <p class="section-body" style="margin-top:16px;">La pregunta central del sistema es directa: qué debe trabajar el piloto en la próxima tanda. Todo lo demás existe para responder eso con evidencia, no con intuición suelta.</p>
       </div>
       <div class="context-callout">
-        <blockquote>"La pista ya funcionaba. Faltaba el sistema que llenara los karts."</blockquote>
-        <cite>Diagnóstico inicial — Edel Racing</cite>
+        <blockquote>"El dato solo sirve si cambia la siguiente salida a pista."</blockquote>
+        <cite>Principio de producto · Edel Racing</cite>
       </div>
     </div>
   </div>
@@ -514,13 +519,13 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
 <section class="proj-section">
   <div class="bound">
     <span class="section-label rv">Lo que construimos</span>
-    <h2 class="section-h2 rv">Academia, captación y presencia social en automático.</h2>
+    <h2 class="section-h2 rv">Un laboratorio operativo para entrenar con datos.</h2>
 
-    <!-- 1. Academia landing page -->
+    <!-- 1. Performance Lab dashboard -->
     <div class="rv rv1">
-      <span class="sub-label">Academia landing page</span>
-      <h3 class="section-h3">Una página que trabaja como vendedor 24/7.</h3>
-      <p class="section-body">Diseñada para convertir visitas en prospectos: propuesta de valor clara, secciones de niveles y horarios, testimonios de pilotos y un formulario de inscripción conectado al sistema de captación. El mismo código base comparte la identidad del equipo de Eileen "Dino" Bonilla.</p>
+      <span class="sub-label">Dashboard trackside</span>
+      <h3 class="section-h3">Una pantalla para decidir la siguiente acción.</h3>
+      <p class="section-body">El home del sistema prioriza lo que importa en pista: nuevo entrenamiento, captura de tanda, pilotos activos, tareas pendientes, últimos tiempos y sesiones recientes. La interfaz está pensada para usarse rápido, antes o después de entrar al kart.</p>
 
       <div class="page-mock-single rv rv2">
         <div class="mock-bar">
@@ -528,7 +533,7 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
           <div class="mock-dot" style="background:#F59E0B;"></div>
           <div class="mock-dot" style="background:#10B981;"></div>
           <div class="mock-bar-url">
-            <span>edelracing.mx/academia</span>
+            <span>performance-lab.edelracing.mx</span>
           </div>
         </div>
         <div class="mock-content">
@@ -544,31 +549,31 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
             <div class="mock-cta-btn ghost"></div>
           </div>
         </div>
-        <div class="mock-footer-bar">Academia de Karting · Edel Racing</div>
+        <div class="mock-footer-bar">Performance Lab · Próxima tanda</div>
       </div>
     </div>
 
     <div class="section-divider"></div>
 
-    <!-- 2. Sistema de captación -->
-    <span class="sub-label rv">Sistema de captación</span>
-    <h3 class="section-h3 rv" style="margin-bottom:8px;">Cada inscripción, registrada y notificada en segundos.</h3>
-    <p class="section-body rv" style="margin-bottom:32px;">El formulario de la landing dispara un flujo sin intervención manual: el prospecto queda registrado en el CRM, el admin recibe notificación por correo y la conversación en WhatsApp Business se abre de inmediato.</p>
+    <!-- 2. Flujo de datos -->
+    <span class="sub-label rv">Flujo de datos</span>
+    <h3 class="section-h3 rv" style="margin-bottom:8px;">De RaceBox a análisis utilizable.</h3>
+    <p class="section-body rv" style="margin-bottom:32px;">Cada tanda puede cargar datos de RaceBox, asociarse a piloto y entrenamiento, persistir puntos GPS y preparar cortes de sector desde KML. El objetivo no es guardar archivos, es construir contexto para comparar vueltas y detectar dónde se gana o se pierde tiempo.</p>
     <div class="flow-card rv rv1">
       <div class="flow-track">
         <div class="flow-node trigger">
           <span class="fn-label">Entrada</span>
-          <span class="fn-name">Formulario web</span>
+          <span class="fn-name">CSV + KML RaceBox</span>
         </div>
         <div class="flow-arrow"></div>
         <div class="flow-node engine">
           <span class="fn-label">Procesador</span>
-          <span class="fn-name">Google Apps Script</span>
+          <span class="fn-name">Parser de telemetría</span>
         </div>
         <div class="flow-arrow"></div>
         <div class="flow-node">
           <span class="fn-label">Salida</span>
-          <span class="fn-name">3 destinos simultáneos</span>
+          <span class="fn-name">Análisis por tanda</span>
         </div>
       </div>
       <div class="flow-outputs-3">
@@ -577,8 +582,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           </div>
           <div>
-            <span class="out-label">CRM</span>
-            <span class="out-name">Google Sheets</span>
+            <span class="out-label">Datos</span>
+            <span class="out-name">Supabase</span>
           </div>
         </div>
         <div class="output-node">
@@ -586,8 +591,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           </div>
           <div>
-            <span class="out-label">Notificación</span>
-            <span class="out-name">Email automático</span>
+            <span class="out-label">Mapa</span>
+            <span class="out-name">GPS + sectores</span>
           </div>
         </div>
         <div class="output-node">
@@ -595,8 +600,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
           <div>
-            <span class="out-label">Conversación</span>
-            <span class="out-name">WhatsApp Business</span>
+            <span class="out-label">Lectura</span>
+            <span class="out-name">IA de entrenamiento</span>
           </div>
         </div>
       </div>
@@ -604,30 +609,30 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
 
     <div class="section-divider"></div>
 
-    <!-- 3. Automatización de redes sociales -->
-    <span class="sub-label rv">Automatización de redes sociales</span>
-    <h3 class="section-h3 rv" style="margin-bottom:8px;">Publicación automática en Instagram y Facebook con n8n.</h3>
-    <p class="section-body rv" style="margin-bottom:32px;">El equipo sube las imágenes a Google Drive. El workflow de n8n detecta el archivo, lo pasa por Cloudinary como proxy de entrega —solución al bloqueo de Meta a URLs de Drive desde abril 2026— y publica en ambas plataformas sin intervención humana.</p>
+    <!-- 3. Reportes y tareas -->
+    <span class="sub-label rv">Reportes y tareas</span>
+    <h3 class="section-h3 rv" style="margin-bottom:8px;">La IA termina en una tarea concreta.</h3>
+    <p class="section-body rv" style="margin-bottom:32px;">El sistema genera análisis por tanda, briefing antes del entrenamiento, reportes PDF y tareas pendientes para el piloto. La salida esperada no es una gráfica bonita, es una instrucción verificable para probar en pista.</p>
     <div class="flow-card rv rv1">
       <div class="flow-track">
         <div class="flow-node source">
           <span class="fn-label">Origen</span>
-          <span class="fn-name">Google Drive</span>
+          <span class="fn-name">Tandas registradas</span>
         </div>
         <div class="flow-arrow"></div>
         <div class="flow-node engine">
           <span class="fn-label">Orquestador</span>
-          <span class="fn-name">n8n Workflow</span>
+          <span class="fn-name">Motor IA</span>
         </div>
         <div class="flow-arrow"></div>
         <div class="flow-node">
-          <span class="fn-label">Proxy de imagen</span>
-          <span class="fn-name">Cloudinary</span>
+          <span class="fn-label">Documento</span>
+          <span class="fn-name">Reporte PDF</span>
         </div>
         <div class="flow-arrow"></div>
         <div class="flow-node">
           <span class="fn-label">Salida</span>
-          <span class="fn-name">2 plataformas</span>
+          <span class="fn-name">Siguiente foco</span>
         </div>
       </div>
       <div class="flow-outputs-2">
@@ -636,8 +641,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r="1" fill="#E1306C" stroke="none"/></svg>
           </div>
           <div>
-            <span class="out-label">Red social</span>
-            <span class="out-name">Instagram</span>
+            <span class="out-label">Entrenamiento</span>
+            <span class="out-name">Tarea pendiente</span>
           </div>
         </div>
         <div class="output-node">
@@ -645,8 +650,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1877F2" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </div>
           <div>
-            <span class="out-label">Red social</span>
-            <span class="out-name">Facebook</span>
+            <span class="out-label">Coaching</span>
+            <span class="out-name">Briefing de pista</span>
           </div>
         </div>
       </div>
@@ -661,15 +666,15 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
 <section class="proj-section">
   <div class="bound">
     <span class="section-label rv">Qué quedó activo</span>
-    <h2 class="section-h2 rv">Un sistema completo funcionando desde el primer día.</h2>
+    <h2 class="section-h2 rv">Una base real para operar el entrenamiento.</h2>
     <div class="results-grid rv rv1">
       <div class="result-item">
         <div class="result-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
         <div>
-          <h4>Landing de academia publicada</h4>
-          <p>Página de captación optimizada para conversión con formulario funcional y propuesta de valor clara.</p>
+          <h4>Entrenamientos y tandas centralizados</h4>
+          <p>Sesiones, pilotos, stints y objetivos diarios quedan en una misma estructura operativa.</p>
         </div>
       </div>
       <div class="result-item">
@@ -677,8 +682,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
         <div>
-          <h4>CRM activo en Google Sheets</h4>
-          <p>Cada prospecto registrado automáticamente con fecha, nombre y datos de contacto desde el formulario.</p>
+          <h4>Telemetría RaceBox integrada</h4>
+          <p>CSV, puntos GPS y líneas de sector preparan el mapa de pista y la lectura por segmentos.</p>
         </div>
       </div>
       <div class="result-item">
@@ -686,8 +691,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
         </div>
         <div>
-          <h4>Flujo de notificación 24/7</h4>
-          <p>Email al admin y WhatsApp Business activados en segundos tras cada inscripción, sin intervención manual.</p>
+          <h4>Análisis IA por contexto</h4>
+          <p>El sistema cruza objetivos, resultados de tanda y observaciones para producir recomendaciones.</p>
         </div>
       </div>
       <div class="result-item">
@@ -695,8 +700,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2H3v16h5l3 3 3-3h7z"/><path d="M7 8h10M7 12h6"/></svg>
         </div>
         <div>
-          <h4>Publicación automática en redes</h4>
-          <p>n8n + Cloudinary publicando en Instagram y Facebook. El equipo solo sube la imagen a Drive.</p>
+          <h4>Reportes y tareas accionables</h4>
+          <p>PDFs, briefing y tareas pendientes conectan el análisis con la siguiente salida a pista.</p>
         </div>
       </div>
     </div>
@@ -707,8 +712,8 @@ footer { border-top: 1px solid var(--rule); padding: 44px 0; }
 <section class="proj-cta rv">
   <div class="bound">
     <span class="label">¿Proyecto similar?</span>
-    <h2>¿Tu academia o negocio necesita captar clientes en automático?</h2>
-    <p>Cuéntanos tu situación. El diagnóstico es gratuito y sin compromiso.</p>
+    <h2>¿Tu operación necesita un sistema propio?</h2>
+    <p>Cuéntanos qué decisiones se siguen tomando a mano. El diagnóstico es gratuito y sin compromiso.</p>
     <div class="cta-row">
       <a href="contacto.html" class="btn-primary">Iniciar diagnóstico gratuito</a>
       <a href="index.html#portafolio" class="btn-secondary">Ver más proyectos</a>
