@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servicios — Velora Labs</title>
+<meta name="description" content="Cuatro servicios diseñados para sumarse: Audit, Start, Scale y Grow. Desde el diagnóstico hasta el sistema completo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ─── TOKENS ──────────────────────────────────────────── */
+:root {
+  --ink:       #080709;
+  --ink-2:     #0E0D12;
+  --ink-3:     #141318;
+  --rule:      #1E1C28;
+  --rule-2:    #262432;
+  --violet:    #5B5FE8;
+  --violet-lt: #818CF8;
+  --cyan:      #22D3EE;
+  --green:     #10B981;
+  --amber:     #F59E0B;
+  --snow:      #E8EAF4;
+  --mist:      #9698B8;
+  --dim:       #4E5075;
+  --jk: "Plus Jakarta Sans", "Helvetica Neue", sans-serif;
+  --it: "Inter", "Helvetica Neue", sans-serif;
+  --mo: "JetBrains Mono", "Fira Code", monospace;
+  --expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; color-scheme: dark; }
+body {
+  background: var(--ink); color: var(--snow);
+  font-family: var(--it); line-height: 1.65;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none; opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+}
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.bound { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px,4.5vw,64px); }
+.sr { position: absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* ─── REVEAL ──────────────────────────────────────────── */
+.rv { opacity:0; transform:translateY(18px); transition: opacity .65s var(--expo), transform .65s var(--expo); }
+.rv.on { opacity:1; transform:none; }
+.r1{transition-delay:.08s;} .r2{transition-delay:.16s;} .r3{transition-delay:.24s;}
+@media (prefers-reduced-motion: reduce) { .rv { opacity:1; transform:none; transition:none; } }
+
+/* ─── NAV ─────────────────────────────────────────────── */
+#nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  height: 68px; display:flex; align-items:center;
+  background: rgba(8,7,9,.85);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(30,28,40,.8);
+  transition: background .3s;
+}
+.nav-wrap {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:32px; width:100%; max-width:1280px;
+  margin:0 auto; padding:0 clamp(20px,4.5vw,64px);
+}
+.nav-logo { display:flex; align-items:center; flex-shrink:0; line-height:0; }
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a { font-size:14px; font-weight:500; color:var(--dim); letter-spacing:.3px; transition:color .2s; }
+.nav-links a:hover { color:var(--snow); }
+.nav-links a.active { color:var(--snow); }
+.nav-btn {
+  padding:9px 20px; border-radius:7px;
+  background:var(--violet); color:#fff;
+  font-size:14px; font-weight:600;
+  transition:background .2s, transform .15s; flex-shrink:0; white-space:nowrap;
+}
+.nav-btn:hover { background:var(--violet-lt); transform:translateY(-1px); }
+@media (max-width:860px) { .nav-links { display:none; } }
+
+/* ─── PAGE HERO ───────────────────────────────────────── */
+.page-hero {
+  padding: clamp(120px,14vw,180px) 0 clamp(64px,7vw,88px);
+  border-bottom: 1px solid var(--rule);
+  position: relative; overflow: hidden;
+  background: #080608;
+}
+
+/* Orbs — mismo tratamiento que el index */
+@keyframes orb-a {
+  0%   { transform: translate(0%,0%) scale(1); }
+  50%  { transform: translate(7%,10%) scale(1.07); }
+  100% { transform: translate(-4%,5%) scale(.96); }
+}
+@keyframes orb-b {
+  0%   { transform: translate(0%,0%) scale(1); }
+  50%  { transform: translate(-9%,-7%) scale(1.05); }
+  100% { transform: translate(5%,-12%) scale(.98); }
+}
+.hero-orb {
+  position: absolute; border-radius: 50%;
+  pointer-events: none; filter: blur(72px);
+}
+.hero-orb-1 {
+  width: 55vw; height: 55vw; top: -20%; right: -5%;
+  background: radial-gradient(circle, rgba(91,95,232,.17) 0%, transparent 65%);
+  animation: orb-a 20s ease-in-out infinite alternate;
+}
+.hero-orb-2 {
+  width: 40vw; height: 40vw; bottom: -5%; left: -8%;
+  background: radial-gradient(circle, rgba(34,211,238,.08) 0%, transparent 60%);
+  animation: orb-b 26s ease-in-out infinite alternate;
+}
+.hero-vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 30%, rgba(4,3,6,.65) 100%);
+}
+.hero-glow {
+  position: absolute; inset:0; pointer-events:none;
+  background: radial-gradient(ellipse 50% 60% at 72% 50%, rgba(91,95,232,.09) 0%, transparent 65%);
+}
+.hero-grid {
+  position: absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 65%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 65%);
+}
+.hero-fade {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+  background: linear-gradient(to bottom, transparent, var(--ink));
+  pointer-events: none;
+}
+
+/* ─── AMBIENT GLOWS (body sections) ──────────────────── */
+/* Fixed subtle orbs that give depth to the whole page */
+.ambient {
+  position: fixed; pointer-events: none; z-index: 0;
+  border-radius: 50%; filter: blur(100px);
+  will-change: transform;
+}
+.ambient-1 {
+  width: 50vw; height: 50vw;
+  top: 20vh; right: -15vw;
+  background: radial-gradient(circle, rgba(91,95,232,.055) 0%, transparent 65%);
+}
+.ambient-2 {
+  width: 40vw; height: 40vw;
+  top: 60vh; left: -10vw;
+  background: radial-gradient(circle, rgba(34,211,238,.035) 0%, transparent 65%);
+}
+.ambient-3 {
+  width: 35vw; height: 35vw;
+  bottom: 10vh; right: 5vw;
+  background: radial-gradient(circle, rgba(91,95,232,.04) 0%, transparent 65%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb { animation: none; }
+}
+.hero-content { position:relative; z-index:2; }
+.hero-eyebrow {
+  font-family:var(--mo); font-size:11px; letter-spacing:3px;
+  text-transform:uppercase; color:var(--cyan); opacity:.85;
+  display:block; margin-bottom:20px;
+}
+.hero-title {
+  font-family:var(--jk); font-size:clamp(36px,5vw,68px);
+  font-weight:800; line-height:1.05; letter-spacing:-.035em; color:var(--snow);
+  margin-bottom:18px;
+}
+.hero-sub {
+  font-size:15px; font-weight:300; color:var(--mist);
+  line-height:1.75; max-width:500px;
+}
+
+/* ─── SECTION ─────────────────────────────────────────── */
+.sect { padding:clamp(72px,9vw,112px) 0; border-top:1px solid var(--rule); position:relative; z-index:1; }
+.sect-dark { background:var(--ink-2); }
+.sect-title {
+  font-family:var(--jk); font-size:clamp(26px,3.5vw,44px);
+  font-weight:800; line-height:1.05; letter-spacing:-.03em; color:var(--snow);
+  margin-bottom:clamp(40px,5vw,60px);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SERVICE TREE
+═══════════════════════════════════════════════════════ */
+.tree-sect {
+  position: relative; overflow: hidden;
+}
+.tree-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+.tree-wrap {
+  padding: clamp(64px,8vw,100px) 0;
+  position: relative; z-index: 1;
+}
+
+/* SVG connectors */
+.tree-connector {
+  display: block;
+  width: 100%; height: 88px;
+  overflow: visible;
+  margin: 4px 0;
+}
+@media (max-width: 700px) { .tree-connector { display: none; } }
+
+/* ─── PANEL BASE ──────────────────────────────────────── */
+.svc-panel {
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color .25s;
+}
+
+/* Top accent line */
+.svc-panel::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0; transition: opacity .35s;
+}
+.svc-panel:hover::before { opacity: 1; }
+.panel-cyan::before   { background: var(--cyan); }
+.panel-green::before  { background: var(--green); }
+.panel-violet::before { background: var(--violet-lt); }
+.panel-amber::before  { background: var(--amber); }
+
+/* Panel header (always visible) */
+.panel-hdr {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+  padding: clamp(24px,3vw,36px) clamp(24px,3vw,40px);
+  background: var(--ink-2);
+  box-sizing: border-box;
+}
+.panel-hdr-left { display: flex; align-items: center; gap: 16px; }
+.panel-badge {
+  display: inline-block; padding: 4px 12px; border-radius: 100px;
+  font-family: var(--mo); font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
+  flex-shrink: 0;
+}
+.pb-cyan   { background:rgba(34,211,238,.10); color:var(--cyan); }
+.pb-green  { background:rgba(16,185,129,.10); color:var(--green); }
+.pb-violet { background:rgba(91,95,232,.12);  color:var(--violet-lt); }
+.pb-amber  { background:rgba(245,158,11,.10); color:var(--amber); }
+
+.panel-hdr-title {
+  font-family: var(--jk); font-size: clamp(16px,1.8vw,20px);
+  font-weight: 700; letter-spacing: -.02em; color: var(--snow);
+}
+.panel-hdr-sub {
+  font-size: 13px; font-weight: 300; color: var(--mist);
+  margin-top: 2px;
+}
+.panel-hdr-right { display: flex; align-items: flex-end; flex-direction: column; gap: 2px; flex-shrink: 0; }
+.panel-price {
+  font-family: var(--mo); font-size: clamp(15px,1.8vw,20px);
+  font-weight: 500; letter-spacing: -.5px;
+}
+.price-cyan   { color: var(--cyan); }
+.price-green  { color: var(--green); }
+.price-violet { color: var(--violet-lt); }
+.price-amber  { color: var(--amber); }
+.panel-price-note { font-size: 11px; color: var(--mist); opacity: .6; font-family: var(--mo); }
+
+/* Toggle button (Start + Build only) */
+.panel-toggle {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: var(--mist);
+  padding: 6px 12px; border-radius: 6px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  transition: color .2s, border-color .2s;
+  white-space: nowrap;
+}
+.panel-toggle:hover { color: var(--snow); border-color: var(--rule-2); }
+.toggle-icon {
+  width: 14px; height: 14px;
+  transition: transform .3s var(--expo);
+}
+.panel-expanded .toggle-icon { transform: rotate(45deg); }
+
+/* Panel body (expandable content) */
+.panel-body {
+  padding: clamp(24px,3vw,40px);
+  border-top: 1px solid var(--rule);
+  background: var(--ink);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px;
+}
+/* For full-width panels, 3-col body */
+.panel-body-wide {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.body-col { display: flex; flex-direction: column; gap: 12px; }
+.body-label {
+  font-family: var(--mo); font-size: 9.5px;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--mist);
+  opacity: .65;
+}
+.body-text {
+  font-size: 13.5px; font-weight: 300; color: var(--mist); line-height: 1.75;
+}
+
+/* Includes list */
+.inc-list { display: flex; flex-direction: column; gap: 0; }
+.inc-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--mist); font-weight: 300;
+  padding: 8px 0; border-bottom: 1px solid var(--rule);
+}
+.inc-item:last-child { border-bottom: none; }
+.inc-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+
+/* Timeline + CTA inside body */
+.panel-footer {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 20px; border-top: 1px solid var(--rule);
+  flex-wrap: wrap; gap: 16px;
+}
+.panel-timeline {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--mo); font-size: 10.5px; color: var(--mist);
+  opacity: .7; letter-spacing: .5px;
+}
+.panel-timeline svg { width: 13px; height: 13px; color: var(--mist); }
+.panel-cta {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 600;
+  transition: gap .18s var(--expo);
+}
+.panel-cta:hover { gap: 12px; }
+.cta-cyan   { color: var(--cyan); }
+.cta-green  { color: var(--green); }
+.cta-violet { color: var(--violet-lt); }
+.cta-amber  { color: var(--amber); }
+
+/* Hidden body (collapsed) */
+.panel-collapsible .panel-body {
+  display: none;
+}
+.panel-collapsible.panel-expanded .panel-body {
+  display: grid;
+  animation: body-in .35s var(--expo) both;
+}
+@keyframes body-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Split row */
+.tree-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  align-items: stretch;
+  background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+}
+.tree-split .svc-panel {
+  border-radius: 0; border: none;
+  display: flex; flex-direction: column; height: 100%;
+}
+.tree-split .svc-panel .panel-body {
+  flex: 1;
+}
+.tree-split .svc-panel::before { border-radius: 0; }
+
+@media (max-width: 700px) {
+  .panel-body { grid-template-columns: 1fr; gap: 24px; }
+  .panel-body-wide { grid-template-columns: 1fr; }
+  .tree-split { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .panel-hdr { flex-wrap: wrap; }
+  .panel-hdr-right { flex-direction: row; align-items: center; gap: 12px; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ADD-ONS
+═══════════════════════════════════════════════════════ */
+.addons-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0;
+  border: 1px solid var(--rule); border-radius: 14px; overflow: hidden;
+  background: var(--rule);
+}
+.addon-cell {
+  background: var(--ink);
+  padding: clamp(24px,3vw,36px);
+  display: flex; flex-direction: column; gap: 10px;
+  transition: background .2s; position: relative; overflow: hidden;
+}
+.addon-cell:hover { background: #08070b; }
+.addon-cell::before {
+  content: ''; position: absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, var(--violet-lt), transparent);
+  opacity: 0; transition: opacity .3s;
+}
+.addon-cell:hover::before { opacity: 1; }
+.addon-name {
+  font-family: var(--jk); font-size: 16px;
+  font-weight: 700; letter-spacing: -.02em; color: var(--snow);
+}
+.addon-price { font-family: var(--mo); font-size: 13px; color: var(--cyan); }
+.addon-desc { font-size: 13px; font-weight: 300; color: var(--mist); line-height: 1.65; flex: 1; }
+.addon-note { font-family: var(--mo); font-size: 10px; color: var(--mist); opacity: .6; letter-spacing: .5px; }
+@media (max-width: 900px) { .addons-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 520px)  { .addons-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════
+   COMPARISON TABLE
+═══════════════════════════════════════════════════════ */
+.cmp-sect {
+  position: relative; overflow: hidden;
+}
+/* Radial glow behind Build column */
+.cmp-sect::before {
+  content: '';
+  position: absolute;
+  left: 58%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vw; height: 80%;
+  background: radial-gradient(ellipse, rgba(91,95,232,.09) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+/* Neural canvas for this section */
+.cmp-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+  opacity: 0.6;
+}
+.cmp-sect .bound { position: relative; z-index: 1; }
+.cmp-wrap { overflow-x: auto; }
+.cmp-table { width: 100%; border-collapse: collapse; }
+.cmp-table th, .cmp-table td {
+  padding: 13px 16px; text-align: left;
+  border-bottom: 1px solid var(--rule); font-size: 13px;
+  white-space: nowrap;
+}
+.cmp-table thead th {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--mist); opacity: .7; padding-bottom: 16px;
+}
+.cmp-table thead th:first-child { color: var(--mist); opacity: 1; white-space: normal; }
+.cmp-table tbody tr:hover { background: rgba(255,255,255,.012); }
+.cmp-table tbody td:first-child { color: var(--snow); white-space: normal; font-size: 13px; }
+.cmp-table tbody td:not(:first-child) { text-align: center; color: var(--mist); }
+.cmp-check { color: var(--green); }
+.cmp-part  { color: var(--mist); font-size: 11px; }
+.cmp-dash  { color: var(--mist); opacity: .35; }
+.cmp-hl    { background: rgba(91,95,232,.06); }
+
+/* ═══════════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════════ */
+.faq-item { border-top: 1px solid var(--rule); }
+.faq-item:last-child { border-bottom: 1px solid var(--rule); }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 20px 0; cursor: pointer; list-style: none;
+  font-family: var(--jk); font-size: 15px; font-weight: 600; color: var(--snow);
+  transition: color .2s;
+}
+.faq-q:hover { color: var(--violet-lt); }
+.faq-q::marker, .faq-q::-webkit-details-marker { display: none; }
+.faq-icon {
+  width: 18px; height: 18px; flex-shrink: 0; color: var(--dim);
+  transition: transform .3s var(--expo), color .2s;
+}
+details[open] .faq-q { color: var(--violet-lt); }
+details[open] .faq-icon { transform: rotate(45deg); color: var(--violet-lt); }
+.faq-a {
+  font-size: 13.5px; font-weight: 300; color: var(--mist);
+  line-height: 1.75; padding-bottom: 20px; max-width: 700px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CTA FINAL
+═══════════════════════════════════════════════════════ */
+.cta-sect { background: var(--violet); padding: clamp(72px,10vw,140px) 0; }
+.cta-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+.cta-eyebrow {
+  font-family: var(--mo); font-size: 14px;
+  letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.7);
+}
+.cta-title {
+  font-family: var(--jk); font-size: clamp(32px,5.5vw,68px);
+  font-weight: 800; line-height: 1.03; letter-spacing: -.04em; color: #fff;
+}
+.cta-sub { font-size: 14px; font-weight: 300; color: rgba(255,255,255,.7); max-width: 440px; line-height: 1.75; }
+.cta-form { display: flex; gap: 10px; width: 100%; max-width: 480px; flex-wrap: wrap; }
+.cta-input {
+  flex: 1; min-width: 200px; padding: 13px 16px; border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.12);
+  color: #fff; font-family: var(--it); font-size: 13.5px;
+  outline: none; transition: border-color .2s, background .2s;
+}
+.cta-input::placeholder { color: rgba(255,255,255,.45); }
+.cta-input:focus { border-color: rgba(255,255,255,.6); background: rgba(255,255,255,.18); }
+.cta-btn {
+  padding: 13px 22px; border-radius: 7px;
+  background: #fff; color: var(--violet);
+  font-size: 13px; font-weight: 700; white-space: nowrap;
+  transition: background .2s, transform .15s, box-shadow .2s; cursor: pointer;
+}
+.cta-btn:hover { background: #f0f0ff; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+.cta-note { font-size: 11.5px; color: rgba(255,255,255,.45); }
+
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer { border-top: 1px solid var(--rule); padding: 44px 0; }
+.foot-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
+.foot-brand { display: flex; flex-direction: column; gap: 5px; }
+.foot-logo { display: flex; align-items: center; gap: 8px; line-height: 0; }
+.foot-tag { font-size: 13px; color: var(--mist); opacity: .7; }
+.foot-links { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+.foot-links a { font-size: 13px; color: var(--mist); opacity: .7; transition: color .2s, opacity .2s; }
+.foot-links a:hover { color: var(--snow); opacity: 1; }
+.foot-copy { text-align: right; font-size: 12px; color: var(--mist); opacity: .6; line-height: 1.7; }
+@media (max-width: 700px) {
+  .foot-inner { grid-template-columns: 1fr; text-align: center; }
+  .foot-links { justify-content: center; }
+  .foot-copy { text-align: center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-logo" aria-label="Velora Labs — inicio">
+      <img src="logo.svg" alt="Velora Labs" height="44" style="display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#portafolio">Portafolio</a></li>
+      <li><a href="index.html#metodo">Método</a></li>
+      <li><a href="servicios.html" class="active">Servicios</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <a href="contacto.html" class="nav-btn">Iniciar diagnóstico</a>
+  </div>
+</nav>
+
+<!-- Ambient glows — fixed, whole page -->
+<div class="ambient ambient-1" aria-hidden="true"></div>
+<div class="ambient ambient-2" aria-hidden="true"></div>
+<div class="ambient ambient-3" aria-hidden="true"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+  <div class="hero-glow"    aria-hidden="true"></div>
+  <div class="hero-grid"    aria-hidden="true"></div>
+  <div class="hero-fade"    aria-hidden="true"></div>
+  <div class="bound hero-content rv">
+    <span class="hero-eyebrow">Servicios</span>
+    <h1 class="hero-title">Cuatro productos.<br>Un sistema.</h1>
+    <p class="hero-sub">Cada producto está diseñado para sumarse al siguiente. Empieza donde estás, escala hasta donde quieres llegar.</p>
+  </div>
+</div>
+
+<!-- SERVICE TREE -->
+<section class="sect tree-sect" aria-label="Sistema de servicios">
+  <canvas class="tree-canvas" id="neural-canvas" aria-hidden="true"></canvas>
+  <div class="bound">
+    <div class="tree-wrap">
+
+      <!-- ── AUDIT (siempre visible) ────────────────────── -->
+      <div class="svc-panel panel-cyan rv" id="panel-audit">
+        <div class="panel-hdr">
+          <div class="panel-hdr-left">
+            <span class="panel-badge pb-cyan">Velora Audit</span>
+            <div>
+              <div class="panel-hdr-title">El punto de entrada. Siempre.</div>
+              <div class="panel-hdr-sub">Diagnóstico completo antes de invertir en cualquier otra cosa.</div>
+            </div>
+          </div>
+          <div class="panel-hdr-right">
+            <span class="panel-price price-cyan">MX$3,500</span>
+            <span class="panel-price-note">pago único · acreditable</span>
+          </div>
+        </div>
+        <div class="panel-body panel-body-wide">
+          <div class="body-col">
+            <span class="body-label">Para quién</span>
+            <p class="body-text">Cualquier negocio que quiera saber exactamente qué mover primero, con o sin contratar Velora después. El diagnóstico es tuyo independientemente.</p>
+          </div>
+          <div class="body-col">
+            <span class="body-label">Incluye</span>
+            <div class="inc-list">
+              <div class="inc-item"><span class="inc-dot" style="background:var(--cyan)"></span>Análisis de marca e identidad visual</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--cyan)"></span>Auditoría de presencia digital (web, redes, Google)</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--cyan)"></span>Diagnóstico de canales y gaps de captación</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--cyan)"></span>Mapa de oportunidades de automatización</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--cyan)"></span>Documento de diagnóstico + sesión de revisión (60 min)</div>
+            </div>
+          </div>
+          <div class="body-col">
+            <span class="body-label">Por qué importa</span>
+            <p class="body-text">Sin diagnóstico claro no hay estrategia real. El Audit evita que inviertas en lo que no mueve la aguja — y te da un plan de prioridades basado en tu negocio, no en una plantilla.</p>
+            <div class="panel-footer" style="border:none;padding-top:16px;">
+              <div class="panel-timeline">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2" stroke-linecap="round"/></svg>
+                5–7 días hábiles
+              </div>
+              <a href="contacto.html" class="panel-cta cta-cyan">Iniciar diagnóstico →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CONNECTOR 1: Audit → Start + Build ─────────── -->
+      <svg class="tree-connector" viewBox="0 0 1000 88" preserveAspectRatio="none" fill="none" aria-hidden="true">
+        <path d="M500,0 L500,36 L262,88"
+              stroke="rgba(91,95,232,0.35)" stroke-width="1"
+              stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        <path d="M500,36 L738,88"
+              stroke="rgba(91,95,232,0.35)" stroke-width="1"
+              stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        <circle cx="500" cy="4"  r="5" fill="rgba(34,211,238,0.6)"/>
+        <circle cx="262" cy="84" r="5" fill="rgba(16,185,129,0.6)"/>
+        <circle cx="738" cy="84" r="5" fill="rgba(129,140,248,0.6)"/>
+      </svg>
+
+      <!-- ── START + BUILD (expandibles) ───────────────── -->
+      <div class="tree-split">
+
+        <!-- Velora Start -->
+        <div class="svc-panel panel-green panel-collapsible panel-expanded" id="panel-start">
+          <div class="panel-hdr">
+            <div class="panel-hdr-left">
+              <span class="panel-badge pb-green">Velora Start</span>
+              <div>
+                <div class="panel-hdr-title">Presencia + seguimiento</div>
+                <div class="panel-hdr-sub">Para negocios que empiezan en serio.</div>
+              </div>
+            </div>
+            <div class="panel-hdr-right">
+              <span class="panel-price price-green">desde MX$28,000</span>
+              <button class="panel-toggle" data-target="panel-start" aria-expanded="true">
+                <svg class="toggle-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2v10M2 7h10" stroke-linecap="round"/></svg>
+                <span class="toggle-label">Ocultar</span>
+              </button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="body-col">
+              <span class="body-label">Para quién</span>
+              <p class="body-text">Micro y pequeñas empresas que arrancan desde cero o que tienen presencia informal. Necesitan marca profesional, sitio web y un sistema que capture prospectos sin que alguien tenga que estar revisando el correo.</p>
+              <div style="margin-top:8px;">
+                <span class="body-label">Timeline</span>
+                <div class="panel-timeline" style="margin-top:6px;">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2" stroke-linecap="round"/></svg>
+                  2–3 semanas
+                </div>
+              </div>
+              <div style="margin-top:16px;">
+                <span class="body-label">No incluye</span>
+                <p class="body-text" style="margin-top:4px;font-size:13px;">Fotografía o producción de contenido · tienda en línea · automatización de redes sociales (se cotiza aparte) · mantenimiento post-entrega</p>
+              </div>
+            </div>
+            <div class="body-col">
+              <span class="body-label">Incluye</span>
+              <div class="inc-list">
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>Logo system completo — símbolo, horizontal, variantes claro/oscuro, marca de agua</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>Paleta de color + tipografía + guía de uso</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>Sitio web 3–5 páginas (dominio configurado, HTTPS, mobile-ready)</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>Formulario conectado a CRM en Google Sheets</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>Notificación automática al admin por email + WhatsApp al recibir prospecto</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>SEO básico — meta tags, sitemap, robots.txt, og:image</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--green)"></span>2 rondas de cambios por entregable</div>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <span></span>
+              <a href="contacto.html" class="panel-cta cta-green">Solicitar propuesta →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Velora Scale -->
+        <div class="svc-panel panel-violet panel-collapsible panel-expanded" id="panel-build">
+          <div class="panel-hdr">
+            <div class="panel-hdr-left">
+              <span class="panel-badge pb-violet">Velora Scale</span>
+              <div>
+                <div class="panel-hdr-title">Sistema a medida</div>
+                <div class="panel-hdr-sub">Para operaciones que necesitan más que un sitio.</div>
+              </div>
+            </div>
+            <div class="panel-hdr-right">
+              <span class="panel-price price-violet">desde MX$65,000</span>
+              <button class="panel-toggle" data-target="panel-build" aria-expanded="true">
+                <svg class="toggle-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2v10M2 7h10" stroke-linecap="round"/></svg>
+                <span class="toggle-label">Ocultar</span>
+              </button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="body-col">
+              <span class="body-label">Para quién</span>
+              <p class="body-text">SMBs, startups y organizaciones con procesos internos complejos: inscripciones, resultados, portales, dashboards, integraciones con terceros. Proyectos donde un template no alcanza.</p>
+              <div style="margin-top:8px;">
+                <span class="body-label">Timeline</span>
+                <div class="panel-timeline" style="margin-top:6px;">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2" stroke-linecap="round"/></svg>
+                  4–8 semanas
+                </div>
+              </div>
+              <div style="margin-top:16px;">
+                <span class="body-label">No incluye</span>
+                <p class="body-text" style="margin-top:4px;font-size:13px;">Costo del VPS o hosting (el cliente lo contrata) · licencias de software de terceros · rediseño de marca si ya existe (cotización aparte) · nuevas funcionalidades post-entrega</p>
+              </div>
+            </div>
+            <div class="body-col">
+              <span class="body-label">Incluye</span>
+              <div class="inc-list">
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Identidad visual si no existe, o se parte de la marca actual</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Sistema web o app a medida (portal, dashboard, gestión interna)</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Automatizaciones complejas con n8n o similar</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Integraciones con terceros — Google Workspace, Resend, Drive API, etc.</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Panel de administración con roles y permisos</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Analytics y métricas del sistema</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>Deploy en infraestructura propia (Docker + Nginx + HTTPS)</div>
+                <div class="inc-item"><span class="inc-dot" style="background:var(--violet-lt)"></span>2 semanas de acompañamiento post-lanzamiento</div>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <span></span>
+              <a href="contacto.html" class="panel-cta cta-violet">Solicitar sesión estratégica →</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end tree-split -->
+
+      <!-- ── CONNECTOR 2: Start + Build → Grow ──────────── -->
+      <svg class="tree-connector" viewBox="0 0 1000 88" preserveAspectRatio="none" fill="none" aria-hidden="true">
+        <path d="M262,0 L262,52 L500,88"
+              stroke="rgba(91,95,232,0.35)" stroke-width="1"
+              stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        <path d="M738,0 L738,52 L500,88"
+              stroke="rgba(91,95,232,0.35)" stroke-width="1"
+              stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        <circle cx="262" cy="4"  r="5" fill="rgba(16,185,129,0.6)"/>
+        <circle cx="738" cy="4"  r="5" fill="rgba(129,140,248,0.6)"/>
+        <circle cx="500" cy="84" r="5" fill="rgba(245,158,11,0.6)"/>
+      </svg>
+
+      <!-- ── GROW (siempre visible) ─────────────────────── -->
+      <div class="svc-panel panel-amber rv" id="panel-grow">
+        <div class="panel-hdr">
+          <div class="panel-hdr-left">
+            <span class="panel-badge pb-amber">Velora Grow</span>
+            <div>
+              <div class="panel-hdr-title">Automatización de redes sociales.</div>
+              <div class="panel-hdr-sub">Para negocios que quieren publicar sin depender de tener tiempo.</div>
+            </div>
+          </div>
+          <div class="panel-hdr-right">
+            <span class="panel-price price-amber">desde MX$12,000</span>
+            <span class="panel-price-note">proyecto único · add-on a Start o Scale</span>
+          </div>
+        </div>
+        <div class="panel-body panel-body-wide">
+          <div class="body-col">
+            <span class="body-label">Para quién</span>
+            <p class="body-text">Negocios que ya tienen marca y presencia digital pero no publican con consistencia — porque crear contenido toma tiempo y siempre queda para después. El sistema publica en automático: tú solo subes el material a una carpeta.</p>
+            <div style="margin-top:16px;">
+              <span class="body-label">No incluye</span>
+              <p class="body-text" style="margin-top:4px;font-size:13px;">Creación de contenido (fotos, videos, diseño, copy) · gestión de comentarios o comunidad · TikTok, LinkedIn u otras plataformas</p>
+            </div>
+          </div>
+          <div class="body-col">
+            <span class="body-label">Incluye</span>
+            <div class="inc-list">
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Configuración completa del flujo n8n</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Publicación automática en Instagram y Facebook</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Cloudinary como proxy de imágenes (compatible con Meta)</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Carpeta de Drive configurada como bandeja de entrada del flujo</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Autenticación y conexión de ambas cuentas</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Guía de uso: formatos, nomenclatura, cómo programar posts</div>
+              <div class="inc-item"><span class="inc-dot" style="background:var(--amber)"></span>Pruebas en vivo con contenido real antes de entregar</div>
+            </div>
+          </div>
+          <div class="body-col">
+            <span class="body-label">Cómo funciona</span>
+            <p class="body-text">Subes la imagen y el caption a una carpeta de Google Drive. El flujo de n8n lo detecta, pasa la imagen por Cloudinary para que Meta la acepte y publica en ambas plataformas automáticamente. Tú nunca abres Instagram ni Facebook.</p>
+            <div class="panel-footer" style="border:none;padding-top:16px;">
+              <div class="panel-timeline">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2" stroke-linecap="round"/></svg>
+                2 semanas de soporte post-entrega
+              </div>
+              <a href="contacto.html" class="panel-cta cta-amber">Activar automatización →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end tree-wrap -->
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="sect sect-dark" aria-labelledby="addons-title">
+  <div class="bound">
+    <h2 class="sect-title rv" id="addons-title">Add-ons.</h2>
+    <p class="rv r1" style="font-size:14px;font-weight:300;color:var(--mist);max-width:520px;line-height:1.75;margin-bottom:clamp(36px,4vw,52px);">Servicios independientes que se suman a cualquier paquete o se contratan por separado según lo que necesitas.</p>
+    <div class="addons-grid rv r2">
+
+      <div class="addon-cell">
+        <div class="addon-name">Velora Automate</div>
+        <div class="addon-price">MX$5,000 – 15,000</div>
+        <p class="addon-desc">Flujo de automatización personalizado vía n8n. Integraciones, workflows, reportes automáticos, CRM, notificaciones.</p>
+        <span class="addon-note">Según complejidad del flujo</span>
+      </div>
+
+      <div class="addon-cell">
+        <div class="addon-name">Velora Founder OS</div>
+        <div class="addon-price">MX$20,000 – 28,000</div>
+        <p class="addon-desc">Marca personal, sistema de contenido y distribución para founders que quieren ser reconocidos en su vertical.</p>
+        <span class="addon-note">Proyecto único · 2–3 semanas</span>
+      </div>
+
+      <div class="addon-cell">
+        <div class="addon-name">Campaña Meta Extra</div>
+        <div class="addon-price">MX$3,500</div>
+        <p class="addon-desc">Lanzamiento de campaña adicional fuera del scope del retainer. Incluye estrategia, creativos y setup.</p>
+        <span class="addon-note">Por campaña · no incluye pauta</span>
+      </div>
+
+      <div class="addon-cell">
+        <div class="addon-name">WhatsApp Automation</div>
+        <div class="addon-price">MX$4,500</div>
+        <p class="addon-desc">Setup de automatización de WhatsApp Business: bienvenidas, seguimiento de leads, respuestas automáticas.</p>
+        <span class="addon-note">Setup único</span>
+      </div>
+
+      <div class="addon-cell">
+        <div class="addon-name">Landing Page Extra</div>
+        <div class="addon-price">MX$8,000 – 12,000</div>
+        <p class="addon-desc">Landing page adicional para campaña específica, producto o evento. Incluye diseño, copy base y formulario.</p>
+        <span class="addon-note">Por landing</span>
+      </div>
+
+      <div class="addon-cell">
+        <div class="addon-name">Analytics Setup</div>
+        <div class="addon-price">MX$5,500</div>
+        <p class="addon-desc">Configuración de GA4, Meta Pixel, Google Tag Manager y dashboard de reportes con métricas clave del negocio.</p>
+        <span class="addon-note">Setup único</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="sect cmp-sect" aria-labelledby="cmp-title">
+  <canvas class="cmp-canvas" id="cmp-canvas" aria-hidden="true"></canvas>
+  <div class="bound">
+    <h2 class="sect-title rv" id="cmp-title">¿Cuál es el tuyo?</h2>
+    <div class="cmp-wrap rv r1">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th style="width:36%">Qué incluye</th>
+            <th>Audit</th>
+            <th>Start</th>
+            <th class="cmp-hl">Scale</th>
+            <th>Grow</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Diagnóstico de marca y digital</td><td class="cmp-check">✓</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-dash">—</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Identidad visual completa</td><td class="cmp-dash">—</td><td class="cmp-check">✓</td><td class="cmp-hl cmp-part">Opcional</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Sitio web</td><td class="cmp-dash">—</td><td class="cmp-part">3–5 págs.</td><td class="cmp-hl cmp-check">✓</td><td class="cmp-dash">—</td></tr>
+          <tr><td>CRM en Google Sheets</td><td class="cmp-dash">—</td><td class="cmp-check">✓</td><td class="cmp-hl cmp-check">✓</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Notificación email + WhatsApp</td><td class="cmp-dash">—</td><td class="cmp-check">✓</td><td class="cmp-hl cmp-check">✓</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Sistema web / app a medida</td><td class="cmp-dash">—</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-check">✓</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Automatizaciones complejas (n8n)</td><td class="cmp-dash">—</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-check">✓</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Panel admin con roles y permisos</td><td class="cmp-dash">—</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-check">✓</td><td class="cmp-dash">—</td></tr>
+          <tr><td>Publicación automática Instagram + Facebook</td><td class="cmp-dash">—</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-dash">—</td><td class="cmp-check">✓</td></tr>
+          <tr><td>Flujo n8n + Cloudinary proxy</td><td class="cmp-dash">—</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-dash">—</td><td class="cmp-check">✓</td></tr>
+          <tr><td>Acreditable a paquete</td><td class="cmp-check">✓</td><td class="cmp-dash">—</td><td class="cmp-hl cmp-dash">—</td><td class="cmp-dash">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sect sect-dark" aria-labelledby="faq-title">
+  <div class="bound">
+    <h2 class="sect-title rv" id="faq-title">Preguntas frecuentes</h2>
+    <div class="rv r1">
+
+      <details class="faq-item">
+        <summary class="faq-q">¿Por dónde empiezo si no sé qué necesita mi negocio?
+          <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+        </summary>
+        <p class="faq-a">Empieza con el Velora Audit. En 5–7 días hábiles tendrás un diagnóstico completo que te dice exactamente qué mover primero. El costo de MX$3,500 se acredita si luego contratas cualquier paquete.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">¿Los precios incluyen IVA?
+          <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+        </summary>
+        <p class="faq-a">Los precios publicados no incluyen IVA. El 16% se aplica sobre el total según la legislación fiscal mexicana vigente.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">¿Puedo contratar Velora Grow sin haber pasado por Start o Scale?
+          <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+        </summary>
+        <p class="faq-a">Sí, siempre y cuando ya tengas cuentas activas en Instagram y Facebook. Grow es un proyecto de configuración técnica — no depende de que hayas trabajado antes con Velora. Si tu presencia en redes está desde cero, conviene arrancar con Start primero.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">¿Trabajan con empresas fuera de México?
+          <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+        </summary>
+        <p class="faq-a">Sí. Operamos con clientes en México, LATAM y Europa. Tenemos equipo en México y Alemania, lo que nos da cobertura en múltiples zonas horarias y conocimiento directo de ambos mercados.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">¿Cuántas rondas de revisión incluye cada proyecto?
+          <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+        </summary>
+        <p class="faq-a">Las rondas de revisión se especifican en la propuesta de cada proyecto. Trabajamos con entregas parciales y aprobaciones por etapa para asegurar que el resultado esté alineado antes de avanzar.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary class="faq-q">¿Cuánto tarda la configuración de Velora Grow?
+          <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg>
+        </summary>
+        <p class="faq-a">El flujo queda configurado y probado en 5–7 días hábiles. Antes de entregar hacemos pruebas en vivo con contenido real para confirmar que Instagram y Facebook lo reciben correctamente. Después tienes 2 semanas de soporte para ajustes.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-sect">
+  <div class="bound">
+    <div class="cta-inner rv">
+      <p class="cta-eyebrow">Your growth. Engineered.</p>
+      <h2 class="cta-title">Empieza con el diagnóstico.</h2>
+      <p class="cta-sub">MX$3,500. En 5–7 días hábiles sabes exactamente qué mover primero.</p>
+      <form class="cta-form" action="#" method="post">
+        <label for="cta-email" class="sr">Correo electrónico</label>
+        <input type="email" id="cta-email" name="email" class="cta-input"
+               placeholder="tu@empresa.com" required autocomplete="email">
+        <button type="submit" class="cta-btn">Iniciar diagnóstico — MX$3,500</button>
+      </form>
+      <p class="cta-note">Sin spam · Respuesta en menos de 24h · Acreditable a cualquier paquete</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="bound">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <div class="foot-logo">
+          <img src="logo.svg" alt="Velora Labs" height="38" style="display:block;opacity:.65;">
+        </div>
+        <span class="foot-tag">Branding · Growth Systems · Automatización</span>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="index.html#portafolio">Portafolio</a>
+        <a href="index.html#metodo">Método</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <p class="foot-copy">© 2026 Velora Labs<br>Built for businesses ready<br>to stop improvising.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+makeNeural('neural-canvas', {
+  nodeColor: 'rgba(129,140,248,', lineColor: 'rgba(129,140,248,',
+  maxDist: 200, count: 52, speed: 0.18, radius: 2.5,
+  nodeOp: 0.7, lineOp: 0.32,
+});
+
+/* Neural net — reusable factory */
+function makeNeural(canvasId, opts) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const { nodeColor, lineColor, maxDist, count, speed, radius, nodeOp, lineOp } = opts;
+  let nodes = [], W, H, raf;
+
+  function resize() {
+    W = canvas.width  = canvas.parentElement.offsetWidth;
+    H = canvas.height = canvas.parentElement.offsetHeight;
+  }
+  function init() {
+    nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - .5) * speed, vy: (Math.random() - .5) * speed,
+    }));
+  }
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < maxDist) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = lineColor + lineOp * (1 - d/maxDist) + ')';
+          ctx.lineWidth = 1; ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n => {
+      ctx.beginPath(); ctx.arc(n.x, n.y, radius, 0, Math.PI*2);
+      ctx.fillStyle = nodeColor + nodeOp + ')'; ctx.fill();
+    });
+    raf = requestAnimationFrame(tick);
+  }
+  new ResizeObserver(resize).observe(canvas.parentElement);
+  new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { if (!raf) tick(); }
+    else { cancelAnimationFrame(raf); raf = null; }
+  }), {threshold:.05}).observe(canvas.parentElement);
+  resize(); init();
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) tick();
+}
+
+makeNeural('cmp-canvas', {
+  nodeColor: 'rgba(129,140,248,', lineColor: 'rgba(129,140,248,',
+  maxDist: 160, count: 32, speed: 0.14, radius: 2,
+  nodeOp: 0.45, lineOp: 0.18,
+});
+
+/* Nav scroll */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.style.background = scrollY > 36 ? 'rgba(8,7,9,.97)' : 'rgba(8,7,9,.85)';
+}, {passive:true});
+
+/* Reveal */
+const obs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+}), {threshold:.08, rootMargin:'0px 0px -24px 0px'});
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+/* Equalize split panel header heights */
+function equalizeHeaders() {
+  const headers = document.querySelectorAll('.tree-split .panel-hdr');
+  headers.forEach(h => h.style.height = '');
+  let max = 0;
+  headers.forEach(h => max = Math.max(max, h.offsetHeight));
+  headers.forEach(h => h.style.height = max + 'px');
+}
+equalizeHeaders();
+window.addEventListener('resize', equalizeHeaders, { passive: true });
+
+/* Panel accordion (Start + Build) */
+document.querySelectorAll('.panel-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = document.getElementById(btn.dataset.target);
+    if (!panel) return;
+    const isOpen = panel.classList.toggle('panel-expanded');
+    btn.setAttribute('aria-expanded', isOpen);
+    btn.querySelector('.toggle-label').textContent = isOpen ? 'Ocultar' : 'Ver detalles';
+    equalizeHeaders();
+  });
+});
+</script>
+
+</body>
+</html>

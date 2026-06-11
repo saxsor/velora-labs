@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karting Club México — Portafolio · Velora Labs</title>
+<meta name="description" content="Sistema web completo de gestión de carreras de karting — resultados en tiempo real, portal de pilotos, campeonatos y administración.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ─── TOKENS ──────────────────────────────────────────── */
+:root {
+  --ink:       #080709;
+  --ink-2:     #0E0D12;
+  --ink-3:     #141318;
+  --rule:      #1E1C28;
+  --rule-2:    #262432;
+  --violet:    #5B5FE8;
+  --violet-lt: #818CF8;
+  --cyan:      #22D3EE;
+  --green:     #10B981;
+  --snow:      #E8EAF4;
+  --mist:      #9698B8;
+  --dim:       #4E5075;
+  --jk: "Plus Jakarta Sans", "Helvetica Neue", sans-serif;
+  --it: "Inter", "Helvetica Neue", sans-serif;
+  --mo: "JetBrains Mono", monospace;
+  --expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Karting Club brand */
+  --km-amber:  #F59E0B;
+  --km-amber2: #FCD34D;
+  --km-dark:   #0F0D0A;
+}
+
+/* ─── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; color-scheme: dark; }
+body {
+  background: var(--ink); color: var(--snow);
+  font-family: var(--it); line-height: 1.65;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
+}
+
+/* ─── AMBIENT ─────────────────────────────────────────── */
+.ambient {
+  position: fixed; pointer-events: none; z-index: 0;
+  border-radius: 50%; filter: blur(100px); will-change: transform;
+}
+.ambient-1 {
+  width: 50vw; height: 50vw; top: 20vh; right: -15vw;
+  background: radial-gradient(circle, rgba(91,95,232,.055) 0%, transparent 65%);
+}
+.ambient-2 {
+  width: 40vw; height: 40vw; top: 60vh; left: -10vw;
+  background: radial-gradient(circle, rgba(34,211,238,.035) 0%, transparent 65%);
+}
+.ambient-3 {
+  width: 35vw; height: 35vw; bottom: 10vh; right: 5vw;
+  background: radial-gradient(circle, rgba(91,95,232,.04) 0%, transparent 65%);
+}
+
+/* ─── LAYOUT ──────────────────────────────────────────── */
+.bound { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px,4.5vw,64px); }
+
+/* ─── REVEAL ──────────────────────────────────────────── */
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--expo), transform .7s var(--expo); }
+.rv.on { opacity: 1; transform: none; }
+.rv1 { transition-delay: .08s; } .rv2 { transition-delay: .16s; }
+.rv3 { transition-delay: .24s; } .rv4 { transition-delay: .32s; }
+@keyframes fu { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+.fu { animation: fu .75s var(--expo) both; }
+.d1{animation-delay:.10s;} .d2{animation-delay:.20s;} .d3{animation-delay:.30s;}
+@media (prefers-reduced-motion: reduce) {
+  .rv, .fu { animation: none; opacity: 1; transform: none; transition: none; }
+}
+
+/* ─── NAV ─────────────────────────────────────────────── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 68px; display: flex; align-items: center;
+  background: rgba(8,7,9,.85);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(30,28,40,.8);
+}
+.nav-wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; width: 100%; max-width: 1280px;
+  margin: 0 auto; padding: 0 clamp(20px,4.5vw,64px);
+}
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; line-height: 0; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--dim); letter-spacing: .3px; transition: color .2s; }
+.nav-links a:hover { color: var(--snow); }
+.nav-links a.active { color: var(--snow); }
+.nav-btn {
+  padding: 9px 20px; border-radius: 7px;
+  background: var(--violet); color: #fff;
+  font-size: 14px; font-weight: 600;
+  transition: background .2s, transform .15s; flex-shrink: 0; white-space: nowrap;
+}
+.nav-btn:hover { background: var(--violet-lt); transform: translateY(-1px); }
+@media (max-width: 860px) { .nav-links { display: none; } }
+
+/* ─── HERO ────────────────────────────────────────────── */
+.proj-hero { padding: clamp(100px,12vw,148px) 0 0; position: relative; overflow: hidden; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 13px; font-weight: 500; color: var(--dim);
+  margin-bottom: 32px; transition: color .2s;
+}
+.back-link:hover { color: var(--mist); }
+.back-link:hover svg { transform: translateX(-3px); }
+.back-link svg { transition: transform .2s var(--expo); }
+
+.proj-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.chip {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; padding: 5px 11px; border-radius: 99px;
+  border: 1px solid rgba(91,95,232,.3); color: var(--violet-lt);
+  background: rgba(91,95,232,.08);
+}
+.proj-hero h1 {
+  font-family: var(--jk); font-weight: 800;
+  font-size: clamp(44px, 7.5vw, 96px);
+  line-height: 1; letter-spacing: -2px;
+  color: var(--snow); margin-bottom: 20px;
+}
+.proj-hero h1 .accent { color: var(--km-amber); }
+.proj-hero-sub {
+  font-size: clamp(16px, 1.6vw, 20px); color: var(--mist);
+  max-width: 580px; line-height: 1.6; margin-bottom: 56px;
+}
+.hero-placeholder {
+  width: 100%; aspect-ratio: 21/9;
+  background:
+    radial-gradient(ellipse 50% 70% at 20% 50%, rgba(245,158,11,.15) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 55% at 80% 30%, rgba(245,158,11,.08) 0%, transparent 55%),
+    var(--km-dark);
+  border-radius: 16px 16px 0 0;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(245,158,11,.12); border-bottom: none;
+  overflow: hidden; position: relative;
+}
+.hero-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg, transparent, transparent 119px, rgba(245,158,11,.025) 120px
+  );
+}
+.ph-label {
+  font-family: var(--mo); font-size: 11px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(245,158,11,.3);
+  position: relative; z-index: 1;
+}
+
+/* ─── META STRIP ──────────────────────────────────────── */
+.meta-strip { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin-bottom: 88px; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.meta-item { padding: 28px 24px; border-right: 1px solid var(--rule); }
+.meta-item:first-child { padding-left: 0; }
+.meta-item:last-child { border-right: none; }
+.meta-key {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 8px; display: block;
+}
+.meta-val { font-family: var(--jk); font-size: 15px; font-weight: 600; color: var(--snow); line-height: 1.4; }
+@media (max-width: 640px) {
+  .meta-grid { grid-template-columns: repeat(2, 1fr); }
+  .meta-item:nth-child(2) { border-right: none; }
+  .meta-item:nth-child(3) { border-right: 1px solid var(--rule); border-top: 1px solid var(--rule); }
+  .meta-item:nth-child(4) { border-top: 1px solid var(--rule); border-right: none; }
+}
+
+/* ─── SECTIONS ────────────────────────────────────────── */
+.proj-section { padding-bottom: 88px; }
+.section-label {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--violet-lt);
+  margin-bottom: 12px; display: block;
+}
+.section-h2 {
+  font-family: var(--jk); font-weight: 700;
+  font-size: clamp(24px, 3vw, 36px);
+  letter-spacing: -.5px; color: var(--snow); margin-bottom: 20px;
+}
+.section-h3 {
+  font-family: var(--jk); font-weight: 700; font-size: 20px;
+  color: var(--snow); letter-spacing: -.3px; margin-bottom: 32px;
+}
+.section-body { font-size: 16px; color: var(--mist); line-height: 1.75; max-width: 640px; }
+.section-divider { height: 1px; background: var(--rule); margin: 64px 0; }
+
+/* context */
+.context-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: start; }
+@media (max-width: 768px) { .context-grid { grid-template-columns: 1fr; gap: 40px; } }
+.context-callout {
+  background: rgba(245,158,11,.06);
+  border: 1px solid rgba(245,158,11,.2);
+  border-radius: 12px; padding: 32px 28px;
+}
+.context-callout p {
+  font-family: var(--jk); font-weight: 600; font-size: 17px;
+  color: var(--snow); line-height: 1.6; margin-bottom: 20px;
+}
+.context-callout cite {
+  font-size: 11px; color: var(--mist); font-style: normal;
+  font-family: var(--mo); letter-spacing: 1px; opacity: .7; text-transform: uppercase;
+}
+
+/* ─── FEATURES GRID ───────────────────────────────────── */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  background: var(--rule); border: 1px solid var(--rule);
+  border-radius: 16px; overflow: hidden; margin-top: 40px;
+}
+@media (max-width: 768px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .features-grid { grid-template-columns: 1fr; } }
+.feature-item {
+  background: var(--ink-2); padding: 28px 24px;
+}
+.feature-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--km-amber); margin-bottom: 16px;
+}
+.feature-item h4 {
+  font-family: var(--jk); font-weight: 600; font-size: 14px;
+  color: var(--snow); margin-bottom: 6px;
+}
+.feature-item p { font-size: 13px; color: var(--mist); line-height: 1.65; }
+
+/* ─── STACK ARCHITECTURE ──────────────────────────────── */
+.arch-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px;
+}
+@media (max-width: 640px) { .arch-grid { grid-template-columns: 1fr; } }
+.arch-layer {
+  background: var(--ink-2); border: 1px solid var(--rule-2);
+  border-radius: 14px; padding: 24px;
+}
+.arch-layer-label {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 16px; display: block;
+}
+.arch-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.arch-tag {
+  font-family: var(--mo); font-size: 11px; letter-spacing: .5px;
+  padding: 5px 10px; border-radius: 6px;
+  background: var(--ink-3); border: 1px solid var(--rule-2);
+  color: var(--mist);
+}
+.arch-tag.hi { color: var(--km-amber); border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.06); }
+.arch-tag.blue { color: var(--violet-lt); border-color: rgba(91,95,232,.3); background: rgba(91,95,232,.06); }
+.arch-tag.teal { color: var(--cyan); border-color: rgba(34,211,238,.3); background: rgba(34,211,238,.06); }
+.arch-tag.gr { color: var(--green); border-color: rgba(16,185,129,.3); background: rgba(16,185,129,.06); }
+
+/* ─── PAGE MOCKUPS ────────────────────────────────────── */
+.pages-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 540px) { .pages-grid { grid-template-columns: 1fr; } }
+.page-mock { background: var(--ink-2); border: 1px solid var(--rule-2); border-radius: 12px; overflow: hidden; }
+.mock-bar {
+  height: 34px; background: var(--km-dark);
+  border-bottom: 1px solid rgba(245,158,11,.12);
+  display: flex; align-items: center; gap: 5px; padding: 0 12px;
+}
+.mock-dot { width: 7px; height: 7px; border-radius: 50%; }
+.mock-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 7px; }
+.ml { height: 7px; border-radius: 99px; background: var(--rule-2); }
+.ml.w70 { width: 70%; } .ml.w55 { width: 55%; } .ml.w40 { width: 40%; }
+.ml.amber { background: rgba(245,158,11,.35); height: 9px; width: 60%; }
+.ml.teal  { background: rgba(34,211,238,.25); height: 7px; width: 45%; }
+.mock-footer {
+  padding: 9px 16px; border-top: 1px solid var(--rule);
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--dim);
+}
+
+/* ─── FLOW ────────────────────────────────────────────── */
+.flow-card { background: var(--ink-2); border: 1px solid var(--rule-2); border-radius: 16px; padding: 40px; }
+.flow-track { display: flex; align-items: center; margin-bottom: 32px; gap: 0; flex-wrap: wrap; row-gap: 16px; }
+.flow-node { background: var(--ink-3); border: 1px solid var(--rule-2); border-radius: 10px; padding: 14px 20px; flex-shrink: 0; }
+.flow-node.trigger { border-color: rgba(91,95,232,.4); background: rgba(91,95,232,.08); }
+.flow-node.engine  { border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.06); }
+.fn-label { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); display: block; margin-bottom: 4px; }
+.flow-node.trigger .fn-label { color: var(--violet-lt); }
+.flow-node.engine  .fn-label { color: #F59E0B; }
+.fn-name { font-family: var(--jk); font-size: 13px; font-weight: 600; color: var(--snow); }
+.flow-arrow { flex: 1; min-width: 20px; height: 1px; background: var(--rule-2); position: relative; margin: 0 4px; }
+.flow-arrow::after { content: ''; position: absolute; right: -1px; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-left-color: var(--dim); border-right: none; }
+.flow-outputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding-top: 24px; border-top: 1px solid var(--rule); }
+.output-node { background: var(--ink-3); border: 1px solid var(--rule-2); border-radius: 10px; padding: 16px; display: flex; align-items: center; gap: 12px; }
+.out-icon { width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.out-label { font-family: var(--mo); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); display: block; margin-bottom: 2px; }
+.out-name { font-size: 13px; font-weight: 500; color: var(--snow); }
+
+/* ─── RESULTS ─────────────────────────────────────────── */
+.results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; }
+@media (max-width: 560px) { .results-grid { grid-template-columns: 1fr; } }
+.result-item {
+  background: var(--ink-2); border: 1px solid var(--rule-2);
+  border-radius: 12px; padding: 24px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.result-icon {
+  width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px;
+  background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.2);
+  display: flex; align-items: center; justify-content: center; color: var(--green);
+}
+.result-item h4 { font-family: var(--jk); font-size: 14px; font-weight: 600; color: var(--snow); margin-bottom: 4px; }
+.result-item p { font-size: 13px; color: var(--mist); line-height: 1.65; }
+
+/* ─── CTA ─────────────────────────────────────────────── */
+.proj-cta { padding: 80px 0 100px; border-top: 1px solid var(--rule); text-align: center; }
+.proj-cta .sup {
+  font-family: var(--mo); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--violet-lt); display: block; margin-bottom: 16px;
+}
+.proj-cta h2 {
+  font-family: var(--jk); font-weight: 700; font-size: clamp(22px, 3vw, 32px);
+  letter-spacing: -.5px; color: var(--snow); margin-bottom: 12px;
+}
+.proj-cta p { font-size: 16px; color: var(--mist); margin-bottom: 32px; }
+.cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  padding: 12px 28px; border-radius: 8px; background: var(--violet); color: #fff;
+  font-family: var(--jk); font-size: 15px; font-weight: 600;
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: var(--violet-lt); transform: translateY(-1px); }
+.btn-secondary {
+  padding: 12px 28px; border-radius: 8px;
+  border: 1px solid var(--rule-2); color: var(--mist);
+  font-size: 15px; font-weight: 500; transition: color .2s, border-color .2s;
+}
+.btn-secondary:hover { color: var(--snow); border-color: var(--dim); }
+
+/* ─── FOOTER ──────────────────────────────────────────── */
+footer { border-top: 1px solid var(--rule); padding: 44px 0; }
+.foot-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
+.foot-brand { display: flex; flex-direction: column; gap: 5px; }
+.foot-logo { display: flex; align-items: center; gap: 8px; line-height: 0; }
+.foot-tag { font-size: 13px; color: var(--mist); opacity: .7; }
+.foot-links { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
+.foot-links a { font-size: 13px; color: var(--mist); opacity: .7; transition: color .2s, opacity .2s; }
+.foot-links a:hover { color: var(--snow); opacity: 1; }
+.foot-copy { text-align: right; font-size: 12px; color: var(--mist); opacity: .6; line-height: 1.7; }
+@media (max-width: 640px) {
+  .foot-inner { grid-template-columns: 1fr; text-align: center; }
+  .foot-links { justify-content: center; }
+  .foot-copy { text-align: center; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="ambient ambient-1" aria-hidden="true"></div>
+<div class="ambient ambient-2" aria-hidden="true"></div>
+<div class="ambient ambient-3" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-logo" aria-label="Velora Labs — inicio">
+      <img src="logo.svg" alt="Velora Labs" height="44" style="display:block;">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#portafolio" class="active">Portafolio</a></li>
+      <li><a href="index.html#metodo">Método</a></li>
+      <li><a href="servicios.html">Servicios</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <a href="contacto.html" class="nav-btn">Iniciar diagnóstico</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="proj-hero">
+  <div class="bound">
+    <a href="index.html#portafolio" class="back-link fu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+      Portafolio
+    </a>
+    <div class="proj-chips fu d1">
+      <span class="chip">Sistema web</span>
+      <span class="chip">React + Node.js</span>
+      <span class="chip">Tiempo real</span>
+      <span class="chip">Docker</span>
+    </div>
+    <h1 class="fu d2">Karting Club<br><span class="accent">México</span></h1>
+    <p class="proj-hero-sub fu d3">De planillas de Excel a un sistema completo de gestión de carreras en producción.</p>
+    <div class="hero-placeholder">
+      <span class="ph-label">Imagen del proyecto</span>
+    </div>
+  </div>
+</section>
+
+<!-- META STRIP -->
+<div class="meta-strip">
+  <div class="bound">
+    <div class="meta-grid">
+      <div class="meta-item rv">
+        <span class="meta-key">Cliente</span>
+        <span class="meta-val">Karting Club México</span>
+      </div>
+      <div class="meta-item rv rv1">
+        <span class="meta-key">Tipo</span>
+        <span class="meta-val">Sistema web · SaaS</span>
+      </div>
+      <div class="meta-item rv rv2">
+        <span class="meta-key">Año</span>
+        <span class="meta-val">2025 — 2026</span>
+      </div>
+      <div class="meta-item rv rv3">
+        <span class="meta-key">Stack</span>
+        <span class="meta-val">React · Node · Docker</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<section class="proj-section">
+  <div class="bound">
+    <div class="context-grid rv">
+      <div>
+        <span class="section-label">El punto de partida</span>
+        <h2 class="section-h2">Un club serio operando sin sistema.</h2>
+        <p class="section-body">Karting Club México organizaba carreras reales con pilotos reales: inscripciones, pagos, resultados, campeonatos. Todo gestionado entre hojas de cálculo, mensajes de WhatsApp y papeles físicos.</p>
+        <p class="section-body" style="margin-top:16px;">El reto era construir un sistema completo desde cero: administración interna, portal público para pilotos, resultados en tiempo real durante la carrera, y campeonatos acumulados automáticos — todo corriendo en producción sobre infraestructura propia.</p>
+      </div>
+      <div class="context-callout">
+        <p>Sistema completo en producción: inscripciones, pagos, resultados en tiempo real, campeonatos y diplomas — todo en un solo lugar.</p>
+        <cite>Karting Club México · Sistema en producción</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bound"><div class="section-divider"></div></div>
+
+<!-- FEATURES -->
+<section class="proj-section">
+  <div class="bound">
+    <span class="section-label rv">Lo que construimos</span>
+    <h2 class="section-h2 rv">Un sistema pensado para el día de carrera y para la gestión diaria.</h2>
+
+    <div class="features-grid rv rv1">
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h4>Resultados en tiempo real</h4>
+        <p>Server-Sent Events (SSE) — la parrilla y los resultados se actualizan en vivo sin refrescar la página.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h4>Portal de piloto con magic link</h4>
+        <p>Acceso seguro sin contraseña — cada piloto recibe un enlace por email para ver su perfil, inscripciones y resultados.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <h4>Auto-inscripción y control de pagos</h4>
+        <p>Los pilotos se inscriben solos. El equipo valida comprobantes con foto y marca el pago como confirmado.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        </div>
+        <h4>Campeonato acumulado automático</h4>
+        <p>Puntos por posición calculados en tiempo real. Tabla de pilotos y campeonato de constructores siempre al día.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h4>Dashboard de administración</h4>
+        <p>Analytics de eventos, pilotos recientes, equipos, inscripciones y métricas de participación en un solo panel.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h4>Diplomas con editor visual</h4>
+        <p>Generación automática de diplomas de participación. Editor visual para personalizar plantillas por evento.</p>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="section-divider"></div>
+    <span class="section-label rv">Arquitectura técnica</span>
+    <h3 class="section-h3 rv" style="margin-bottom:8px;">Stack de producción sobre infraestructura propia.</h3>
+    <p class="section-body rv" style="margin-bottom:32px;">Cada capa elegida por rendimiento, costo y control: base de datos serverless, almacenamiento en Drive, email transaccional por SMTP y contenedores Docker en VPS propio.</p>
+    <div class="arch-grid rv rv1">
+      <div class="arch-layer">
+        <span class="arch-layer-label">Frontend</span>
+        <div class="arch-tags">
+          <span class="arch-tag hi">React 18</span>
+          <span class="arch-tag hi">TypeScript</span>
+          <span class="arch-tag">Vite</span>
+          <span class="arch-tag">Tailwind CSS</span>
+          <span class="arch-tag">shadcn/ui</span>
+          <span class="arch-tag">TanStack Query</span>
+          <span class="arch-tag">Recharts</span>
+          <span class="arch-tag teal">PWA</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <span class="arch-layer-label">Backend</span>
+        <div class="arch-tags">
+          <span class="arch-tag hi">Node.js 20</span>
+          <span class="arch-tag hi">Express</span>
+          <span class="arch-tag">Prisma ORM</span>
+          <span class="arch-tag teal">SSE Realtime</span>
+          <span class="arch-tag blue">JWT Auth</span>
+          <span class="arch-tag">bcryptjs</span>
+          <span class="arch-tag">Helmet</span>
+          <span class="arch-tag">Sharp</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <span class="arch-layer-label">Infraestructura</span>
+        <div class="arch-tags">
+          <span class="arch-tag hi">Docker</span>
+          <span class="arch-tag hi">Nginx</span>
+          <span class="arch-tag">Certbot / HTTPS</span>
+          <span class="arch-tag gr">Neon PostgreSQL</span>
+          <span class="arch-tag">Google Drive API</span>
+          <span class="arch-tag">VPS Ubuntu 22.04</span>
+        </div>
+      </div>
+      <div class="arch-layer">
+        <span class="arch-layer-label">Servicios externos</span>
+        <div class="arch-tags">
+          <span class="arch-tag teal">Resend SMTP</span>
+          <span class="arch-tag">Magic links</span>
+          <span class="arch-tag blue">OAuth2 Google</span>
+          <span class="arch-tag gr">Neon serverless</span>
+          <span class="arch-tag">JSON-LD SEO</span>
+          <span class="arch-tag">Sitemap dinámico</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockups -->
+    <div class="section-divider"></div>
+    <span class="section-label rv">Vistas del sistema</span>
+    <h3 class="section-h3 rv">Admin, portal piloto, eventos y resultados.</h3>
+    <div class="pages-grid rv rv1">
+      <div class="page-mock">
+        <div class="mock-bar">
+          <div class="mock-dot" style="background:#EF4444;"></div>
+          <div class="mock-dot" style="background:#F59E0B;"></div>
+          <div class="mock-dot" style="background:#10B981;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="ml amber"></div>
+          <div class="ml w70"></div>
+          <div class="ml teal"></div>
+          <div class="ml w55" style="margin-top:8px;"></div>
+          <div class="ml w40"></div>
+          <div class="ml w70"></div>
+        </div>
+        <div class="mock-footer">Dashboard — Analytics</div>
+      </div>
+      <div class="page-mock">
+        <div class="mock-bar">
+          <div class="mock-dot" style="background:#EF4444;"></div>
+          <div class="mock-dot" style="background:#F59E0B;"></div>
+          <div class="mock-dot" style="background:#10B981;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="ml w70"></div>
+          <div class="ml amber"></div>
+          <div class="ml w55"></div>
+          <div class="ml teal" style="margin-top:8px;"></div>
+          <div class="ml w40"></div>
+          <div class="ml w70"></div>
+        </div>
+        <div class="mock-footer">Resultados en tiempo real</div>
+      </div>
+      <div class="page-mock">
+        <div class="mock-bar">
+          <div class="mock-dot" style="background:#EF4444;"></div>
+          <div class="mock-dot" style="background:#F59E0B;"></div>
+          <div class="mock-dot" style="background:#10B981;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="ml teal"></div>
+          <div class="ml w70"></div>
+          <div class="ml amber"></div>
+          <div class="ml w40" style="margin-top:8px;"></div>
+          <div class="ml w55"></div>
+          <div class="ml w70"></div>
+        </div>
+        <div class="mock-footer">Portal piloto</div>
+      </div>
+      <div class="page-mock">
+        <div class="mock-bar">
+          <div class="mock-dot" style="background:#EF4444;"></div>
+          <div class="mock-dot" style="background:#F59E0B;"></div>
+          <div class="mock-dot" style="background:#10B981;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="ml w55"></div>
+          <div class="ml teal"></div>
+          <div class="ml w70"></div>
+          <div class="ml amber" style="margin-top:8px;"></div>
+          <div class="ml w40"></div>
+          <div class="ml w55"></div>
+        </div>
+        <div class="mock-footer">Campeonato · Constructores</div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <span class="section-label rv">Automatización de redes sociales</span>
+    <h3 class="section-h3 rv" style="margin-bottom:8px;">Publicación automática en Instagram y Facebook.</h3>
+    <p class="section-body rv" style="margin-bottom:32px;">n8n orquesta la publicación en ambas plataformas sin intervención manual. Cloudinary actúa como proxy de imágenes, garantizando compatibilidad con las restricciones de Meta.</p>
+    <div class="flow-card rv rv1">
+      <div class="flow-track">
+        <div class="flow-node trigger">
+          <span class="fn-label">Contenido</span>
+          <span class="fn-name">Google Drive</span>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node engine">
+          <span class="fn-label">Orquestador</span>
+          <span class="fn-name">n8n Workflow</span>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="flow-node">
+          <span class="fn-label">Proxy de imágenes</span>
+          <span class="fn-name">Cloudinary</span>
+        </div>
+      </div>
+      <div class="flow-outputs">
+        <div class="output-node">
+          <div class="out-icon" style="background:rgba(225,48,108,.12);border:1px solid rgba(225,48,108,.2);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#E1306C"/></svg>
+          </div>
+          <div><span class="out-label">Red social</span><span class="out-name">Instagram</span></div>
+        </div>
+        <div class="output-node">
+          <div class="out-icon" style="background:rgba(24,119,242,.12);border:1px solid rgba(24,119,242,.2);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1877F2" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>
+          <div><span class="out-label">Red social</span><span class="out-name">Facebook</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bound"><div class="section-divider"></div></div>
+
+<!-- RESULTS -->
+<section class="proj-section">
+  <div class="bound">
+    <span class="section-label rv">Qué quedó activo</span>
+    <h2 class="section-h2 rv">Un sistema completo funcionando en producción.</h2>
+    <div class="results-grid rv rv1">
+      <div class="result-item">
+        <div class="result-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <h4>Resultados en tiempo real activos</h4>
+          <p>SSE operando en días de carrera — cero recargas para ver la posición actualizada.</p>
+        </div>
+      </div>
+      <div class="result-item">
+        <div class="result-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <h4>Portal de pilotos en producción</h4>
+          <p>Auto-inscripción, historial de carreras y puntos — accesible sin contraseña vía magic link.</p>
+        </div>
+      </div>
+      <div class="result-item">
+        <div class="result-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        </div>
+        <div>
+          <h4>Campeonatos calculados automáticamente</h4>
+          <p>Tabla de pilotos y constructores actualizada en tiempo real sin intervención manual.</p>
+        </div>
+      </div>
+      <div class="result-item">
+        <div class="result-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div>
+          <h4>Infraestructura Docker en VPS propio</h4>
+          <p>HTTPS, Nginx, Neon serverless y Google Drive — sin costos de plataforma de terceros.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="proj-cta rv">
+  <div class="bound">
+    <span class="sup">¿Proyecto similar?</span>
+    <h2>¿Tu negocio necesita un sistema a medida, no un template?</h2>
+    <p>Cuéntanos qué necesitas operar. El diagnóstico es gratuito y sin compromiso.</p>
+    <div class="cta-row">
+      <a href="contacto.html" class="btn-primary">Iniciar diagnóstico gratuito</a>
+      <a href="index.html#portafolio" class="btn-secondary">Ver más proyectos</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="bound">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <div class="foot-logo">
+          <img src="logo.svg" alt="Velora Labs" height="38" style="display:block;opacity:.65;">
+        </div>
+        <span class="foot-tag">Branding · Growth Systems · Automatización</span>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="index.html#portafolio">Portafolio</a>
+        <a href="index.html#metodo">Método</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <p class="foot-copy">© 2026 Velora Labs<br>Built for businesses ready<br>to stop improvising.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>
